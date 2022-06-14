@@ -1,0 +1,11 @@
+access-key-id:     AKIAYQANN6TQQIHCU7RD
+secret-access-key: 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
+
+dbs:
+  - path: ./data/sqlite.db
+    replicas:
+      - type: s3
+        bucket: paapi-backups
+        path:   db
+        region: us-east-1
+          
