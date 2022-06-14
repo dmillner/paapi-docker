@@ -1,8 +1,13 @@
-version: '3.7'
 
+version: '3'
 services:
-  backend:
-    build:
-      context: .
+  app:
+    build: .
     ports:
       - "80:80"
+    environment:
+      - SQLITE_PATH=/sqlite.db
+    volumes:
+      - "./static:/app/app/static/"
+      - "./data/sqlite.db:/sqlite.db"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 80
