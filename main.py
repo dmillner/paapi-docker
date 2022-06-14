@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -6,7 +7,7 @@ from enum import Enum
 import dataset
 
 # connecting to a SQLite database
-db = dataset.connect('sqlite:///private_api.db')
+db = dataset.connect('sqlite:///{}'.format(os.environ.get('SQLITE_PATH')))
 
 crypto_wallet_table = db['crypto_wallet']
 
