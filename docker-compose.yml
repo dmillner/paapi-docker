@@ -6,7 +6,7 @@ services:
     ports:
       - "80:80"
     environment:
-      - SQLITE_PATH=/sqlite.db
+      - SQLITE_PATH=sqlite.db
     volumes:
       - "./static:/app/app/static/"
       - "./data/sqlite.db:/sqlite.db"
