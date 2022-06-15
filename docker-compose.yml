@@ -15,5 +15,5 @@ services:
     image: litestream/litestream
     volumes:
       - "./litestream.yml:/etc/litestream.yml"
-      - "./data/sqlite.db:/sqlite.db"
+      - "./sqlite.db:/sqlite.db"
     command: replicate
