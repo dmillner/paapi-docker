@@ -2,3 +2,6 @@
 .idea/
 
 __pycache__/
+sqlitefile.db
+sqlitefile.db-shm
+sqlitefile.db-wal

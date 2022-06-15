@@ -7,7 +7,7 @@ from enum import Enum
 import dataset
 
 # connecting to a SQLite database
-db = dataset.connect('sqlite:///{}'.format(os.environ.get('SQLITE_PATH')))
+db = dataset.connect('sqlite:///sqlitefile.db')
 
 
 crypto_wallet_table = db['crypto_wallet']

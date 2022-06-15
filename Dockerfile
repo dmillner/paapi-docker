@@ -1,16 +1,17 @@
 # 
 FROM python:3.9
 
-# 
-WORKDIR /code
+
 
 # 
-COPY ./requirements.txt /code/requirements.txt
+COPY ./requirements.txt /requirements.txt
 
 RUN pip install --upgrade pip
-RUN pip install -r /code/requirements.txt
+RUN pip install -r /requirements.txt
 
 # 
-COPY ./ /code/app
-
+RUN mkdir /code
+COPY ./ /code
+RUN chmod -R 777 /code
+WORKDIR /code
 
