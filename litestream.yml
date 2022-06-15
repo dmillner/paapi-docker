@@ -2,7 +2,7 @@ access-key-id:     AKIAYQANN6TQQIHCU7RD
 secret-access-key: 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
 
 dbs:
-  - path: ./sqlitefile.db-wal
+  - path: ./code/sqlitefile.db
     replicas:
       - type: s3
         bucket: paapi-backups

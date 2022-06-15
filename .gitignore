@@ -5,3 +5,4 @@ __pycache__/
 sqlitefile.db
 sqlitefile.db-shm
 sqlitefile.db-wal
+.sqlitefile.db-litestream
