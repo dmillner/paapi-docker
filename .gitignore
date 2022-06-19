@@ -2,16 +2,9 @@
 .idea/
 
 __pycache__/
-<<<<<<< HEAD
 
-None
-
-None-shm
-
-None-wal
-=======
 sqlitefile.db
 sqlitefile.db-shm
 sqlitefile.db-wal
 .sqlitefile.db-litestream
->>>>>>> dockerapi
+
