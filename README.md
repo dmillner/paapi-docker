@@ -1,1 +1,1 @@
-# private_api
+# personal_accounting_api
