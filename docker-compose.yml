@@ -8,6 +8,12 @@ services:
     environment:
       - SQLITE_PATH=sqlite.db
     volumes:
-      - "./static:/app/app/static/"
-      - "./data/sqlite.db:/sqlite.db"
-    command: uvicorn app.main:app --host 0.0.0.0 --port 80
+      - .:/code
+    command: uvicorn main:app --host 0.0.0.0 --port 80
+  
+  litestream:
+    image: litestream/litestream
+    volumes:
+      - "./litestream.yml:/etc/litestream.yml"
+      - .:/code
+    command: replicate
