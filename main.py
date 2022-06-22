@@ -183,7 +183,7 @@ class CryptoWallet(BaseModel):
                 "display_name": "Ethereum Crypto Wallet",
                 "crypto_wallet_address": "00598756212",
                 "crypto_wallet_type": "ETH",
-                "description": "Used for business income and expenses",
+                "description": "Used for Ethereum blockchain transactions",
                 "tax_type": "NONE",
                 "inactive": False,
             }
@@ -216,7 +216,7 @@ class UpdateCryptoWallet(BaseModel):
                 "display_name": "Ethereum Crypto Wallet",
                 "crypto_wallet_address": "00598756212",
                 "crypto_wallet_type": "ETH",
-                "description": "Used for business income and expenses",
+                "description": "Used for Ethereum blockchain transactions",
                 "tax_type": "NONE",
                 "inactive": False,
             }
