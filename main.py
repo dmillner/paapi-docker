@@ -110,10 +110,10 @@ class Account(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "display_name": "Business Checking Account",
-                "account_code": "10000-00",
+                "display_name": "Personal Checking Account",
+                "account_code": "101",
                 "account_type": "Cash",
-                "description": "Used for business income and expenses",
+                "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
                 "current_balance": 3500.45,
                 "inactive": False,
@@ -155,10 +155,10 @@ class UpdateAccount(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "display_name": "Business Checking Account",
-                "account_code": "10000-00",
+                "display_name": "Personal Checking Account",
+                "account_code": "101",
                 "account_type": "CASH",
-                "description": "Used for business income and expenses",
+                "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
                 "current_balance": 3500.45,
                 "inactive": False,
@@ -236,6 +236,7 @@ class UpdateCryptoWalletResponse(BaseModel):
 
 class JournalLineItems(BaseModel):
     account_code: str = None
+    account_type: str = None
     amount: float = None
     posting_type: str = None
 
@@ -251,17 +252,19 @@ class JournalEntry(BaseModel):
                 "date": "06-22-22",
                 "journal_lines": [
                     {
-                        "account_code": "39",
+                        "account_code": "101",
+                        "account_type": "Cash",
                         "amount": 1000.0,
                         "posting_type": "Debit",
                     },
                     {
-                        "account_code": "44",
+                        "account_code": "400",
+                        "account_type": "Revenue",
                         "amount": 1000.0,
                         "posting_type": "Credit",
                     }
                 ],
-                "description": "Revenue from chicken taco promotion"
+                "description": "Revenue from garage sale"
             }
         }
 
@@ -286,17 +289,19 @@ class UpdateJournalEntry(BaseModel):
                 "date": "06-22-22",
                 "journal_lines": [
                     {
-                        "account_code": "39",
+                        "account_code": "101",
+                        "account_type": "Cash",
                         "amount": 1000.0,
                         "posting_type": "Debit",
                     },
                     {
-                        "account_code": "44",
+                        "account_code": "400",
+                        "account_type": "Revenue",
                         "amount": 1000.0,
                         "posting_type": "Credit",
                     }
                 ],
-                "description": "Revenue from chicken taco promotion",
+                "description": "Revenue from garage sale",
             }
         }
 
