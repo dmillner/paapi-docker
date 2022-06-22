@@ -1,4 +1,3 @@
-import os
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -8,7 +7,6 @@ import dataset
 
 # connecting to a SQLite database
 db = dataset.connect('sqlite:///sqlitefile.db')
-
 
 crypto_wallet_table = db['crypto_wallet']
 
@@ -46,15 +44,86 @@ class MetaDataResponse(BaseModel):
     last_updated_time: Optional[str] = None
 
 
+class Account(BaseModel):
+    display_name: str = Query(...,
+                              title="Display Name",
+                              description="User recognizable display name for the Account.",
+                              max_length=100
+                              )
+    account_code: str
+    account_type: str
+    description: Optional[str] = None
+    tax_code: Optional[TaxType] = None
+    inactive: Optional[bool] = False
+    meta_data: Optional[MetaData] = None
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "display_name": "Business Checking Account",
+                "account_code": "10000-00",
+                "account_type": "Cash",
+                "description": "Used for business income and expenses",
+                "tax_code": "NONE",
+                "current_balance": 3500.45,
+                "inactive": False,
+            }
+        }
+
+
+class AccountResponse(BaseModel):
+    id: Optional[str] = None
+    display_name: Optional[str] = None
+    account_code: Optional[str] = None
+    account_type: Optional[str] = None
+    description: Optional[str] = None
+    tax_code: Optional[TaxType] = None
+    current_balance: Optional[float] = None
+    inactive: Optional[bool] = False
+    meta_data: Optional[MetaDataResponse] = None
+
+
+class UpdateAccountResponse(BaseModel):
+    id: Optional[str] = None
+    display_name: Optional[str] = None
+    account_code: Optional[str] = None
+    account_type: Optional[str] = None
+    description: Optional[str] = None
+    tax_type: Optional[TaxType] = None
+    inactive: Optional[bool] = False
+    time: Optional[str] = None
+
+
+class UpdateAccount(BaseModel):
+    display_name: Optional[str] = None
+    account_code: Optional[str] = None
+    account_type: Optional[str] = None
+    description: Optional[str] = None
+    tax_type: Optional[TaxType] = None
+    inactive: Optional[bool] = False
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "display_name": "Business Checking Account",
+                "account_code": "10000-00",
+                "account_type": "CASH",
+                "description": "Used for business income and expenses",
+                "tax_code": "NONE",
+                "current_balance": 3500.45,
+                "inactive": False,
+            }
+        }
+
+
 class CryptoWallet(BaseModel):
     display_name: str = Query(..., title="Display Name",
                               description="User recognizable display name for the CryptoWallet.",
                               max_length=100)
-    crypto_wallet_number: str
+    crypto_wallet_address: str
     crypto_wallet_type: str
     description: Optional[str] = None
     tax_code: Optional[TaxType] = None
-    current_balance: Optional[float] = None
     inactive: Optional[bool] = False
     meta_data: Optional[MetaData] = None
 
@@ -66,8 +135,7 @@ class CryptoWallet(BaseModel):
                 "crypto_wallet_type": "ETH",
                 "description": "Used for business income and expenses",
                 "tax_type": "NONE",
-                "current_balance": 3500.45,
-                "active": True,
+                "inactive": False,
             }
         }
 
@@ -75,7 +143,7 @@ class CryptoWallet(BaseModel):
 class CryptoWalletResponse(BaseModel):
     id: Optional[str] = None
     display_name: Optional[str] = None
-    crypto_wallet_number: Optional[str] = None
+    crypto_wallet_address: Optional[str] = None
     crypto_wallet_type: Optional[str] = None
     description: Optional[str] = None
     tax_code: Optional[TaxType] = None
@@ -84,39 +152,36 @@ class CryptoWalletResponse(BaseModel):
     meta_data: Optional[MetaDataResponse] = None
 
 
-class UpdateCryptoWalletResponse(BaseModel):
-    id: Optional[str] = None
-    display_name: Optional[str] = None
-    crypto_wallet_number: Optional[str] = None
-    crypto_wallet_type: Optional[str] = None
-    description: Optional[str] = None
-    tax_type: Optional[TaxType] = None
-    current_balance: Optional[float] = None
-    active: Optional[bool] = True
-    time: Optional[str] = None
-
-
 class UpdateCryptoWallet(BaseModel):
     display_name: Optional[str] = None
-    crypto_wallet_number: Optional[str] = None
+    crypto_wallet_address: Optional[str] = None
     crypto_wallet_type: Optional[str] = None
     description: Optional[str] = None
     tax_type: Optional[TaxType] = None
-    current_balance: Optional[float] = None
-    active: Optional[bool] = True
+    inactive: Optional[bool] = False
 
     class Config:
         schema_extra = {
             "example": {
                 "display_name": "Ethereum Crypto Wallet",
-                "crypto_wallet_number": "00598756212",
+                "crypto_wallet_address": "00598756212",
                 "crypto_wallet_type": "ETH",
                 "description": "Used for business income and expenses",
                 "tax_type": "NONE",
-                "current_balance": 3500.45,
-                "active": True,
+                "inactive": False,
             }
         }
+
+
+class UpdateCryptoWalletResponse(BaseModel):
+    id: Optional[str] = None
+    display_name: Optional[str] = None
+    crypto_wallet_address: Optional[str] = None
+    crypto_wallet_type: Optional[str] = None
+    description: Optional[str] = None
+    tax_type: Optional[TaxType] = None
+    inactive: Optional[bool] = False
+    meta_data: Optional[MetaDataResponse] = None
 
 
 @app.post("/crypto_wallet/", tags=["Crypto Wallet"])
