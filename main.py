@@ -4,6 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
 import dataset
+import json
 
 # connecting to a SQLite database
 db = dataset.connect('sqlite:///sqlitefile.db')
@@ -245,6 +246,7 @@ class JournalEntry(BaseModel):
     date: str = None
     journal_lines: List[JournalLineItems] = None
     description: Optional[str] = None
+    posted: Optional[bool] = True
 
     class Config:
         schema_extra = {
@@ -264,7 +266,8 @@ class JournalEntry(BaseModel):
                         "posting_type": "Credit",
                     }
                 ],
-                "description": "Revenue from garage sale"
+                "description": "Revenue from garage sale",
+                "posted": True
             }
         }
 
@@ -274,13 +277,15 @@ class JournalEntryResponse(BaseModel):
     date: str = None
     journal_lines: List[JournalLineItems] = None
     description: Optional[str] = None
+    posted: Optional[bool] = True
 
 
 class UpdateJournalEntry(BaseModel):
     id: str = None
     date: Optional[str] = None
-    description: Optional[str] = None
     journal_lines: Optional[List[JournalLineItems]] = None
+    description: Optional[str] = None
+    posted: Optional[bool] = True
 
     class Config:
         schema_extra = {
@@ -302,6 +307,7 @@ class UpdateJournalEntry(BaseModel):
                     }
                 ],
                 "description": "Revenue from garage sale",
+                "posted": True
             }
         }
 
@@ -535,3 +541,101 @@ async def delete_crypto_wallet(crypto_wallet_id: int):
         return {"message": f"Crypto Wallet with id {crypto_wallet_id} has been deleted"}
     else:
         raise HTTPException(status_code=404, detail="Crypto Wallet not found")
+
+
+@app.post("/journalentry/", tags=["Journal Entry"])
+async def create_journal_entry(journal_entry: JournalEntry):
+    """
+        Create a journal entry using required information:
+
+    """
+    journal_entry_dict = journal_entry.dict()
+    json_journal_entry_dict = journal_entry.dict()
+    line_items = journal_entry_dict['journal_lines']
+    print(f"line_items in journal_entry_dict is {line_items}")
+    json_compatible_line_items = json.dumps(line_items)
+    print(f"json_compatible_line_items in journal_entry_dict is {json_compatible_line_items}")
+    json_journal_entry_dict["journal_lines"] = json_compatible_line_items
+    db_insert = journal_entry_table.insert(json_journal_entry_dict)
+    print(f"db_insert is {db_insert}")
+    journal_entry_dict['id'] = db_insert
+    return journal_entry_dict
+
+
+@app.get("/journalentry/query", tags=["Journal Entry"])
+async def query_journal_entry(query: Optional[str] = None, skip: int = 0, limit: int = 10):
+    """
+           Query a journal entry using a sql statement:
+
+    """
+    if query:
+        final_results = []
+        print(f"The query is {query}")
+        # result = db.query('select * from journal_entry')
+        result = db.query(query)
+        if result:
+            for row in result:
+                print(f"The row is {row['journal_lines']}")
+                journal_lines = json.loads(row['journal_lines'])
+                row['journal_lines'] = journal_lines
+                final_results.append(row)
+            print(f"final results are {final_results}")
+            return final_results[skip: skip + limit]
+        else:
+            raise HTTPException(status_code=404, detail="Journal Entry not found")
+
+
+@app.get("/journalentry/{journal_entry_id}", tags=["Journal Entry"])
+async def read_journal_entry(journal_entry_id: str):
+    """
+        Read a journal_entry using journal_entry_id:
+
+    """
+    journal_entry = journal_entry_table.find_one(id=journal_entry_id)
+    if journal_entry:
+        journal_lines = journal_entry['journal_lines']
+        json_compatible_line_items = json.loads(journal_lines)
+        journal_entry['journal_lines'] = json_compatible_line_items
+        return journal_entry
+    else:
+        raise HTTPException(status_code=404, detail="Journal Entry not found")
+
+
+@app.put("/journalentry/{journal_entry_id}", tags=["Journal Entry"])
+async def update_journal_entry(journal_entry_id: str, journal_entry: UpdateJournalEntry):
+    """
+        Update a journal_entry with new information:
+
+    """
+    journal_entry_to_update = journal_entry_table.find_one(id=journal_entry_id)
+    if journal_entry_to_update:
+        journal_entry_dict = journal_entry.dict()
+        json_journal_entry_dict = journal_entry.dict()
+        line_items = journal_entry_dict['journal_lines']
+        print(f"line_items in journal_entry_dict is {line_items}")
+        json_compatible_line_items = json.dumps(line_items)
+        print(f"json_compatible_line_items in journal_entry_dict is {json_compatible_line_items}")
+        json_journal_entry_dict["journal_lines"] = json_compatible_line_items
+        journal_entry_dict['id'] = journal_entry_id
+        json_journal_entry_dict['id'] = journal_entry_id
+        print(f"the updated journal_entry_dict is: {journal_entry_dict}")
+        journal_entry_table.update(json_journal_entry_dict, ['id'])
+
+        return journal_entry_dict
+    else:
+        raise HTTPException(status_code=404, detail="Journal Entry not found")
+
+
+@app.delete("/journalentry/{journal_entry_id}", tags=["Journal Entry"])
+async def delete_journal_entry(journal_entry_id: str):
+    """
+        Delete a Journal Entry:
+
+    """
+    journal_entry_to_delete = journal_entry_table.find_one(id=journal_entry_id)
+    if journal_entry_to_delete:
+        print(f"the journal_entry to delete is: {journal_entry_to_delete}")
+        journal_entry_table.delete(id=journal_entry_id)
+        return {"message": f"Journal Entry with id {journal_entry_id} has been deleted"}
+    else:
+        raise HTTPException(status_code=404, detail="Journal Entry not found")
