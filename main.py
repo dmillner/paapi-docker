@@ -8,7 +8,24 @@ import dataset
 # connecting to a SQLite database
 db = dataset.connect('sqlite:///sqlitefile.db')
 
+# get a reference to the object tables
+owner_info_table = db['owner_info']
+account_table = db['account']
 crypto_wallet_table = db['crypto_wallet']
+contact_table = db['contact']
+employee_table = db['employee']
+item_table = db['item']
+journal_entry_table = db['journal_entry']
+sales_payment_table = db['sales_payment']
+purchase_payment_table = db['purchase_payment']
+sales_invoice_table = db['sales_invoice']
+purchase_invoice_table = db['purchase_invoice']
+sales_order_table = db['sales_order']
+purchase_order_table = db['purchase_order']
+credit_memo_table = db['credit_memo']
+vendor_credit_memo_table = db['vendor_credit_memo']
+quote_table = db['quote']
+connection_table = db['connection']
 
 app = FastAPI()
 
@@ -42,6 +59,39 @@ class MetaData(BaseModel):
 class MetaDataResponse(BaseModel):
     create_time: Optional[str] = None
     last_updated_time: Optional[str] = None
+
+
+class OwnerAddress(BaseModel):
+    line_1: Optional[str] = None
+    line_2: Optional[str] = None
+    city: Optional[str] = None
+    region: Optional[str] = None
+    postal_code: Optional[str] = None
+    country: Optional[str] = None
+
+
+class OwnerInfo(BaseModel):
+    display_name: str
+    owner_name: Optional[str] = None
+    owner_address: Optional[OwnerAddress] = None
+    owner_telephone: Optional[str] = None
+    owner_website: Optional[str] = None
+
+
+class UpdateOwnerInfo(BaseModel):
+    display_name: Optional[str] = None
+    owner_name: Optional[str] = None
+    owner_address: Optional[OwnerAddress] = None
+    owner_telephone: Optional[str] = None
+    owner_website: Optional[str] = None
+
+
+class OwnerInfoResponse(BaseModel):
+    display_name: Optional[str] = None
+    owner_name: Optional[str] = None
+    owner_address: Optional[OwnerAddress] = None
+    owner_telephone: Optional[str] = None
+    owner_website: Optional[str] = None
 
 
 class Account(BaseModel):
@@ -131,7 +181,7 @@ class CryptoWallet(BaseModel):
         schema_extra = {
             "example": {
                 "display_name": "Ethereum Crypto Wallet",
-                "crypto_wallet_number": "00598756212",
+                "crypto_wallet_address": "00598756212",
                 "crypto_wallet_type": "ETH",
                 "description": "Used for business income and expenses",
                 "tax_type": "NONE",
@@ -182,6 +232,155 @@ class UpdateCryptoWalletResponse(BaseModel):
     tax_type: Optional[TaxType] = None
     inactive: Optional[bool] = False
     meta_data: Optional[MetaDataResponse] = None
+
+
+@app.get("/owner_info/", response_model=OwnerInfoResponse, tags=["Owner Info"])
+async def read_owner_info():
+    """
+        Read owner_info:
+
+    """
+    owner_info = owner_info_table.find_one(id=1)
+    if owner_info:
+        return owner_info
+    else:
+        raise HTTPException(status_code=404, detail="OwnerInfo not found")
+
+
+@app.get("/owner_info/query", tags=["Owner Info"])
+async def query_owner_info(query: Optional[str] = None):
+    """
+        Query owner_info using a sql statement:
+
+    """
+    if query:
+        final_results = []
+        print(f"The query is {query}")
+        # result = db.query('select * from owner_info')
+        result = db.query(query)
+        if result:
+            for row in result:
+                print(f"The row is {row}")
+                final_results.append(row)
+            print(f"final results are {final_results}")
+            return final_results
+        else:
+            raise HTTPException(status_code=404, detail="OwnerInfo not found")
+
+
+@app.put("/owner_info/", response_model=UpdateOwnerInfo, tags=["Owner Info"])
+async def update_owner_info(owner_info: UpdateOwnerInfo):
+    """
+        Update owner_info with new information:
+
+    """
+    owner_info_to_update = owner_info_table.find_one(id=1)
+    if owner_info_to_update:
+        print(f"the owner_info to update is: {owner_info_to_update}")
+        owner_info_dict = owner_info.dict()
+        print(f"the owner_info_dict is: {owner_info_dict}")
+        owner_info_dict['id'] = 1
+        print(f"the updated owner_info_dict is: {owner_info_dict}")
+        owner_info_table.update(owner_info_dict, ['id'])
+        return owner_info_dict
+    else:
+        raise HTTPException(status_code=404, detail="OwnerInfo not found")
+
+
+@app.post("/owner_info/", tags=["Owner Info"], include_in_schema=False)
+async def create_owner_info(owner_info: OwnerInfo):
+    """
+        Create owner_info using required information:
+
+    """
+    owner_info_dict = owner_info.dict()
+
+    db_insert = owner_info_table.insert(owner_info_dict)
+    print(f"db_insert is {db_insert}")
+    owner_info_dict['id'] = db_insert
+    return owner_info_dict
+
+
+@app.post("/account/", tags=["Account"])
+async def create_account(account: Account):
+    """
+        Create a ledger account using required information:
+
+    """
+    account_dict = account.dict()
+
+    db_insert = account_table.insert(account_dict)
+    print(f"db_insert is {db_insert}")
+    account_dict['id'] = db_insert
+    return account_dict
+
+
+@app.get("/account/query", tags=["Account"])
+async def query_account(query: Optional[str] = None, skip: int = 0, limit: int = 10):
+    """
+        Query a ledger account using a sql statement:
+
+    """
+    if query:
+        final_results = []
+        print(f"The query is {query}")
+        # result = db.query('select * from account')
+        result = db.query(query)
+        if result:
+            for row in result:
+                print(f"The row is {row}")
+                final_results.append(row)
+            print(f"final results are {final_results}")
+            return final_results[skip: skip + limit]
+        else:
+            raise HTTPException(status_code=404, detail="Account not found")
+
+
+@app.get("/account/{account_id}", tags=["Account"])
+async def read_account(account_id: int):
+    """
+        Read a ledger account using account_id:
+
+    """
+    account = account_table.find_one(id=account_id)
+    if account:
+        return account
+    else:
+        raise HTTPException(status_code=404, detail="Account not found")
+
+
+@app.put("/account/{account_id}", tags=["Account"])
+async def update_account(account_id: int, account: UpdateAccount):
+    """
+        Update a ledger account with new information:
+
+    """
+    account_to_update = account_table.find_one(id=account_id)
+    if account_to_update:
+        print(f"the account to update is: {account_to_update}")
+        account_dict = account.dict()
+        print(f"the account_dict is: {account_dict}")
+        account_dict['id'] = account_id
+        print(f"the updated account_dict is: {account_dict}")
+        account_table.update(account_dict, ['id'])
+        return account_dict
+    else:
+        raise HTTPException(status_code=404, detail="Account not found")
+
+
+@app.delete("/account/{account_id}", tags=["Account"])
+async def delete_account(account_id: int):
+    """
+        Delete a Ledger Account:
+
+    """
+    account_to_delete = account_table.find_one(id=account_id)
+    if account_to_delete:
+        print(f"the account to delete is: {account_to_delete}")
+        account_table.delete(id=account_id)
+        return {"message": f"Account with id {account_id} has been deleted"}
+    else:
+        raise HTTPException(status_code=404, detail="Account not found")
 
 
 @app.post("/crypto_wallet/", tags=["Crypto Wallet"])
