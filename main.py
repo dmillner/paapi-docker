@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
 import dataset
@@ -232,6 +232,73 @@ class UpdateCryptoWalletResponse(BaseModel):
     tax_type: Optional[TaxType] = None
     inactive: Optional[bool] = False
     meta_data: Optional[MetaDataResponse] = None
+
+
+class JournalLineItems(BaseModel):
+    account_code: str = None
+    amount: float = None
+    posting_type: str = None
+
+
+class JournalEntry(BaseModel):
+    date: str = None
+    journal_lines: List[JournalLineItems] = None
+    description: Optional[str] = None
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "date": "06-22-22",
+                "journal_lines": [
+                    {
+                        "account_code": "39",
+                        "amount": 1000.0,
+                        "posting_type": "Debit",
+                    },
+                    {
+                        "account_code": "44",
+                        "amount": 1000.0,
+                        "posting_type": "Credit",
+                    }
+                ],
+                "description": "Revenue from chicken taco promotion"
+            }
+        }
+
+
+class JournalEntryResponse(BaseModel):
+    id: str = None
+    date: str = None
+    journal_lines: List[JournalLineItems] = None
+    description: Optional[str] = None
+
+
+class UpdateJournalEntry(BaseModel):
+    id: str = None
+    date: Optional[str] = None
+    description: Optional[str] = None
+    journal_lines: Optional[List[JournalLineItems]] = None
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "id": "1",
+                "date": "06-22-22",
+                "journal_lines": [
+                    {
+                        "account_code": "39",
+                        "amount": 1000.0,
+                        "posting_type": "Debit",
+                    },
+                    {
+                        "account_code": "44",
+                        "amount": 1000.0,
+                        "posting_type": "Credit",
+                    }
+                ],
+                "description": "Revenue from chicken taco promotion",
+            }
+        }
 
 
 @app.get("/owner_info/", response_model=OwnerInfoResponse, tags=["Owner Info"])
