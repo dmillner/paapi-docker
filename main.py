@@ -554,32 +554,32 @@ async def create_journal_entry(journal_entry: JournalEntry):
     current_date = datetime.today().strftime('%Y-%m-%d')
     journal_entry_dict = journal_entry.dict()
     json_journal_entry_dict = journal_entry.dict()
-    line_items = journal_entry_dict['journal_lines']
+    journal_lines = journal_entry_dict['journal_lines']
     journal_entry_date = journal_entry_dict['date']
 
     if not journal_entry_date:
         journal_entry_dict['date'] = current_date
 
-    if not line_items:
-        raise HTTPException(status_code=404, detail="Cannot Record An Empty Transaction")
+    if not journal_lines:
+        raise HTTPException(status_code=404, detail="Cannot Record An Empty Journal Entry")
 
-    for item in line_items:
-        print(f"item: is {item}")
-        if item['posting_type'] == 'Credit' and item['amount'] > 0:
-            item['amount'] = -item["amount"]
+    for line in journal_lines:
+        print(f"line: is {line}")
+        if line['posting_type'] == 'Credit' and line['amount'] > 0:
+            line['amount'] = -line["amount"]
 
-    print(f"Updated line_items are: {line_items}")
+    print(f"Updated journal_lines are: {journal_lines}")
 
-    code_amount = [[item['account_code'], item['amount']] for item in line_items]
+    code_amount = [[line['account_code'], line['amount']] for line in journal_lines]
     print(f"code_amount is: {code_amount}")
 
-    if sum(item[1] for item in code_amount) != 0:
-        raise HTTPException(status_code=404, detail="Unbalanced Transaction Items")
+    if sum(line[1] for line in code_amount) != 0:
+        raise HTTPException(status_code=404, detail="Unbalanced Journal Lines")
 
-    print(f"line_items in journal_entry_dict is {line_items}")
-    json_compatible_line_items = json.dumps(line_items)
-    print(f"json_compatible_line_items in journal_entry_dict is {json_compatible_line_items}")
-    json_journal_entry_dict["journal_lines"] = json_compatible_line_items
+    print(f"journal_lines in journal_entry_dict is {journal_lines}")
+    json_compatible_journal_lines = json.dumps(journal_lines)
+    print(f"json_compatible_journal_lines in journal_entry_dict is {json_compatible_journal_lines}")
+    json_journal_entry_dict["journal_lines"] = json_compatible_journal_lines
     db_insert = journal_entry_table.insert(json_journal_entry_dict)
     print(f"db_insert is {db_insert}")
     journal_entry_dict['id'] = db_insert
