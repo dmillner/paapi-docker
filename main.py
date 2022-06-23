@@ -565,7 +565,7 @@ async def create_journal_entry(journal_entry: JournalEntry):
 
     for item in line_items:
         print(f"item: is {item}")
-        if item['posting_type'] == 'Credit':
+        if item['posting_type'] == 'Credit' and item['amount'] > 0:
             item['amount'] = -item["amount"]
 
     print(f"Updated line_items are: {line_items}")
