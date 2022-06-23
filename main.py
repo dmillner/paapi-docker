@@ -4,7 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
 import dataset
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 
 # connecting to a SQLite database
@@ -551,7 +551,7 @@ async def create_journal_entry(journal_entry: JournalEntry):
 
     """
 
-    current_date = datetime.today().strftime('%Y-%m-%d')
+    current_date = datetime.now(timezone.utc).astimezone().strftime('%Y-%m-%d')
     journal_entry_dict = journal_entry.dict()
     json_journal_entry_dict = journal_entry.dict()
     journal_lines = journal_entry_dict['journal_lines']
