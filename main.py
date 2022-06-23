@@ -555,6 +555,10 @@ async def create_journal_entry(journal_entry: JournalEntry):
     journal_entry_dict = journal_entry.dict()
     json_journal_entry_dict = journal_entry.dict()
     line_items = journal_entry_dict['journal_lines']
+    journal_entry_date = journal_entry_dict['date']
+
+    if not journal_entry_date:
+        journal_entry_dict['date'] = current_date
 
     if not line_items:
         raise HTTPException(status_code=404, detail="Cannot Record An Empty Transaction")
@@ -564,9 +568,9 @@ async def create_journal_entry(journal_entry: JournalEntry):
         if item['posting_type'] == 'Credit':
             item['amount'] = -item["amount"]
 
-    print(f"New Line Items are: {line_items}")
+    print(f"Updated line_items are: {line_items}")
 
-    code_amount = [[item['account_code'], item['amount'], item['posting_type']] for item in line_items]
+    code_amount = [[item['account_code'], item['amount']] for item in line_items]
     print(f"code_amount is: {code_amount}")
 
     if sum(item[1] for item in code_amount) != 0:
