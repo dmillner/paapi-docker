@@ -4,6 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
 import dataset
+from datetime import datetime
 import json
 
 # connecting to a SQLite database
@@ -251,7 +252,7 @@ class JournalEntry(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "date": "06-22-22",
+                "date": "2022-06-22",
                 "journal_lines": [
                     {
                         "account_code": "101",
@@ -291,7 +292,7 @@ class UpdateJournalEntry(BaseModel):
         schema_extra = {
             "example": {
                 "id": "1",
-                "date": "06-22-22",
+                "date": "2022-06-22",
                 "journal_lines": [
                     {
                         "account_code": "101",
@@ -549,9 +550,31 @@ async def create_journal_entry(journal_entry: JournalEntry):
         Create a journal entry using required information:
 
     """
+
+    current_date = datetime.today().strftime('%Y-%m-%d')
     journal_entry_dict = journal_entry.dict()
     json_journal_entry_dict = journal_entry.dict()
     line_items = journal_entry_dict['journal_lines']
+
+    if not line_items:
+        raise ValueError('cannot record an empty transaction')
+
+    # if sum(item[1] for item in line_items) != 0:
+    #     raise ValueError('unbalanced transaction items')
+
+    for item in line_items:
+        print(f"item: is {item}")
+        if item['posting_type'] == 'Credit':
+            item['amount'] = -item["amount"]
+
+    print(f"New Line Items are: {line_items}")
+
+    code_amount = [[item['account_code'], item['amount'], item['posting_type']] for item in line_items]
+    print(f"code_amount is: {code_amount}")
+
+    if sum(item[1] for item in code_amount) != 0:
+        raise ValueError('unbalanced transaction items')
+
     print(f"line_items in journal_entry_dict is {line_items}")
     json_compatible_line_items = json.dumps(line_items)
     print(f"json_compatible_line_items in journal_entry_dict is {json_compatible_line_items}")
