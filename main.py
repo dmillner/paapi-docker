@@ -564,7 +564,14 @@ async def create_journal_entry(journal_entry: JournalEntry):
         raise HTTPException(status_code=404, detail="Cannot Record An Empty Journal Entry")
 
     for line in journal_lines:
-        print(f"line: is {line}")
+        print(f"line in journal_lines: is {line}")
+        account_code = line['account_code']
+        amount = line['amount']
+        if not account_code:
+            raise HTTPException(status_code=404, detail="All Journal Lines Must Contain account_code")
+        if not amount:
+            raise HTTPException(status_code=404, detail="All Journal Lines Must Contain amount")
+
         if line['posting_type'] == 'Credit' and line['amount'] > 0:
             line['amount'] = -line["amount"]
 
