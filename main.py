@@ -557,10 +557,7 @@ async def create_journal_entry(journal_entry: JournalEntry):
     line_items = journal_entry_dict['journal_lines']
 
     if not line_items:
-        raise ValueError('cannot record an empty transaction')
-
-    # if sum(item[1] for item in line_items) != 0:
-    #     raise ValueError('unbalanced transaction items')
+        raise HTTPException(status_code=404, detail="Cannot Record An Empty Transaction")
 
     for item in line_items:
         print(f"item: is {item}")
@@ -573,7 +570,7 @@ async def create_journal_entry(journal_entry: JournalEntry):
     print(f"code_amount is: {code_amount}")
 
     if sum(item[1] for item in code_amount) != 0:
-        raise ValueError('unbalanced transaction items')
+        raise HTTPException(status_code=404, detail="Unbalanced Transaction Items")
 
     print(f"line_items in journal_entry_dict is {line_items}")
     json_compatible_line_items = json.dumps(line_items)
