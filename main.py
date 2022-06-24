@@ -114,7 +114,7 @@ class Account(BaseModel):
             "example": {
                 "display_name": "Personal Checking Account",
                 "account_code": "101",
-                "account_type": "Cash",
+                "account_type": "Asset",
                 "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
                 "current_balance": 3500.45,
@@ -159,7 +159,7 @@ class UpdateAccount(BaseModel):
             "example": {
                 "display_name": "Personal Checking Account",
                 "account_code": "101",
-                "account_type": "CASH",
+                "account_type": "Asset",
                 "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
                 "current_balance": 3500.45,
@@ -256,7 +256,7 @@ class JournalEntry(BaseModel):
                 "journal_lines": [
                     {
                         "account_code": "101",
-                        "account_type": "Cash",
+                        "account_type": "Asset",
                         "amount": 1000.0,
                         "posting_type": "Debit",
                     },
@@ -296,7 +296,7 @@ class UpdateJournalEntry(BaseModel):
                 "journal_lines": [
                     {
                         "account_code": "101",
-                        "account_type": "Cash",
+                        "account_type": "Asset",
                         "amount": 1000.0,
                         "posting_type": "Debit",
                     },
