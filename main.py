@@ -676,7 +676,15 @@ async def delete_journal_entry(journal_entry_id: str):
 @app.get("/reports/profit_and_loss", tags=["Reports"])
 async def query_profit_and_loss():
     column_data_1 = [{"value": "Income"}, {"value": ""}]
-    column_data_2 = [{"value": "Income"}, {"value": ""}]
+    column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
+    column_data_3 = [{"id": "46", "value": "Job Materials"}, {"value": ""}]
+    column_data_4 = [{"id": "48", "value": "Fountains and Garden Lighting"}, {"value": "275.00"}]
+    column_data_5 = [{"id": "49", "value": "Plants and Soil"}, {"value": "150.00"}]
+    column_data_6 = [{"value": "Total Job Materials"}, {"value": "425.00"}]
+    column_data_7 = [{"value": "Total Landscaping Services"}, {"value": "425.00"}]
+    column_data_8 = [{"id": "54", "value": "Pest Control Services"}, {"value": "-100.00"}]
+    column_data_9 = [{"value": "Total Income"}, {"value": "325.00"}]
+    column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
     profit_and_loss = {
         "Header": {
             "Customer": "1",
