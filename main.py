@@ -248,6 +248,8 @@ class JournalEntry(BaseModel):
     journal_lines: List[JournalLineItems] = None
     description: Optional[str] = None
     posted: Optional[bool] = True
+    journal_type: Optional[str] = None
+    validate_journal_type: Optional[bool] = False
 
     class Config:
         schema_extra = {
@@ -268,7 +270,9 @@ class JournalEntry(BaseModel):
                     }
                 ],
                 "description": "Revenue from garage sale",
-                "posted": True
+                "posted": True,
+                "journal_type": "",
+                "validate_journal_type": False
             }
         }
 
@@ -279,6 +283,8 @@ class JournalEntryResponse(BaseModel):
     journal_lines: List[JournalLineItems] = None
     description: Optional[str] = None
     posted: Optional[bool] = True
+    journal_type: Optional[str] = None
+    validate_journal_type: Optional[bool] = False
 
 
 class UpdateJournalEntry(BaseModel):
@@ -287,6 +293,8 @@ class UpdateJournalEntry(BaseModel):
     journal_lines: Optional[List[JournalLineItems]] = None
     description: Optional[str] = None
     posted: Optional[bool] = True
+    journal_type: Optional[str] = None
+    validate_journal_type: Optional[bool] = False
 
     class Config:
         schema_extra = {
@@ -308,7 +316,9 @@ class UpdateJournalEntry(BaseModel):
                     }
                 ],
                 "description": "Revenue from garage sale",
-                "posted": True
+                "posted": True,
+                "journal_type": "",
+                "validate_journal_type": False
             }
         }
 
