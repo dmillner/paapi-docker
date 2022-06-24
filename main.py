@@ -720,107 +720,46 @@ async def query_profit_and_loss():
             "Row": [
                 {
                     "Header": {
-                        "ColData": [
-                            {
-                                "value": "Income"
-                            },
-                            {
-                                "value": ""
-                            }
-                        ]
+                        "ColData": column_data_1
                     },
                     "Rows": {
                         "Row": [
                             {
                                 "Header": {
-                                    "ColData": [
-                                        {
-                                            "id": "45",
-                                            "value": "Landscaping Services"
-                                        },
-                                        {
-                                            "value": ""
-                                        }
-                                    ]
+                                    "ColData": column_data_2
                                 },
                                 "Rows": {
                                     "Row": [
                                         {
                                             "Header": {
-                                                "ColData": [
-                                                    {
-                                                        "id": "46",
-                                                        "value": "Job Materials"
-                                                    },
-                                                    {
-                                                        "value": ""
-                                                    }
-                                                ]
+                                                "ColData": column_data_3
                                             },
                                             "Rows": {
                                                 "Row": [
                                                     {
-                                                        "ColData": [
-                                                            {
-                                                                "id": "48",
-                                                                "value": "Fountains and Garden Lighting"
-                                                            },
-                                                            {
-                                                                "value": "275.00"
-                                                            }
-                                                        ],
+                                                        "ColData": column_data_4,
                                                         "type": "Data"
                                                     },
                                                     {
-                                                        "ColData": [
-                                                            {
-                                                                "id": "49",
-                                                                "value": "Plants and Soil"
-                                                            },
-                                                            {
-                                                                "value": "150.00"
-                                                            }
-                                                        ],
+                                                        "ColData": column_data_5,
                                                         "type": "Data"
                                                     }
                                                 ]
                                             },
                                             "type": "Section",
                                             "Summary": {
-                                                "ColData": [
-                                                    {
-                                                        "value": "Total Job Materials"
-                                                    },
-                                                    {
-                                                        "value": "425.00"
-                                                    }
-                                                ]
+                                                "ColData": column_data_6
                                             }
                                         }
                                     ]
                                 },
                                 "type": "Section",
                                 "Summary": {
-                                    "ColData": [
-                                        {
-                                            "value": "Total Landscaping Services"
-                                        },
-                                        {
-                                            "value": "425.00"
-                                        }
-                                    ]
+                                    "ColData": column_data_7
                                 }
                             },
                             {
-                                "ColData": [
-                                    {
-                                        "id": "54",
-                                        "value": "Pest Control Services"
-                                    },
-                                    {
-                                        "value": "-100.00"
-                                    }
-                                ],
+                                "ColData": column_data_8,
                                 "type": "Data"
                             }
                         ]
@@ -828,28 +767,14 @@ async def query_profit_and_loss():
                     "type": "Section",
                     "group": "Income",
                     "Summary": {
-                        "ColData": [
-                            {
-                                "value": "Total Income"
-                            },
-                            {
-                                "value": "325.00"
-                            }
-                        ]
+                        "ColData": column_data_9
                     }
                 },
                 {
                     "group": "GrossProfit",
                     "type": "Section",
                     "Summary": {
-                        "ColData": [
-                            {
-                                "value": "Gross Profit"
-                            },
-                            {
-                                "value": "325.00"
-                            }
-                        ]
+                        "ColData": column_data_10
                     }
                 },
                 {
