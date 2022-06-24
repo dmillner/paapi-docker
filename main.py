@@ -558,6 +558,7 @@ async def create_journal_entry(journal_entry: JournalEntry):
     journal_entry_date = journal_entry_dict['date']
 
     if not journal_entry_date:
+        json_journal_entry_dict['date'] = current_date
         journal_entry_dict['date'] = current_date
 
     if not journal_lines:
