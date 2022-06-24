@@ -675,6 +675,8 @@ async def delete_journal_entry(journal_entry_id: str):
 
 @app.get("/reports/profit_and_loss", tags=["Reports"])
 async def query_profit_and_loss():
+    column_data_1 = [{"value": "Income"}, {"value": ""}]
+    column_data_2 = [{"value": "Income"}, {"value": ""}]
     profit_and_loss = {
         "Header": {
             "Customer": "1",
