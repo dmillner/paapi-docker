@@ -695,6 +695,14 @@ async def query_profit_and_loss():
     column_data_8 = [{"id": "54", "value": "Pest Control Services"}, {"value": "-100.00"}]
     column_data_9 = [{"value": "Total Income"}, {"value": "325.00"}]
     column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
+    income_group = {"Header": {}, "type": "Section", "group": "Income", "Summary": {}}
+    expense_group = {"Header": {}, "type": "Section", "group": "Expense", "Summary": {}}
+    cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
+    gross_profit_group = {"type": "Section", "group": "Gross Profit", "Summary": {}}
+    net_operating_income_group = {"type": "Section", "group": "Net Operating Income", "Summary": {}}
+    net_income_group = {"type": "Section", "group": "Net Income", "Summary": {}}
+    net_other_income_group = {"type": "Section", "group": "Net Other Income", "Summary": {}}
+    other_expense_group = {"type": "Section", "group": "Other Expense", "Summary": {}}
     profit_and_loss = {
         "Header": {
             "Customer": "1",
