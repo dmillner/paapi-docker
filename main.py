@@ -695,7 +695,17 @@ async def query_profit_and_loss():
     column_data_8 = [{"id": "54", "value": "Pest Control Services"}, {"value": "-100.00"}]
     column_data_9 = [{"value": "Total Income"}, {"value": "325.00"}]
     column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
-    income_group = {"Header": {"ColData": []}, "type": "Section", "group": "Income", "Summary": {}}
+    income_group = {"Header": {"ColData": column_data_1},
+                    "Rows": {"Row": [{"Header": {"ColData": column_data_2},
+                                      "Rows": {"Row": [{"Header": {"ColData": column_data_3}
+                                                        }
+                                                       ]
+                                               }
+                                      }
+                                     ]
+                             },
+                    "type": "Section", "group": "Income",
+                    "Summary": {}}
     expense_group = {"Header": {}, "type": "Section", "group": "Expense", "Summary": {}}
     cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
     gross_profit_group = {"type": "Section", "group": "Gross Profit", "Summary": {}}
