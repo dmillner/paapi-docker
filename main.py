@@ -697,12 +697,10 @@ async def query_profit_and_loss():
     column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
     income_group = {"Header": {"ColData": column_data_1},
                     "Rows": {"Row": [{"Header": {"ColData": column_data_2},
-                                      "Rows": {"Row": [{"Header": {"ColData": column_data_3}
-                                                        }
-                                                       ]
-                                               }
-                                      }
-                                     ]
+                                      "Rows": {"Row": [{"Header": {"ColData": column_data_3},
+                                                        "Rows": {"Row": []}
+                                                        }, {}]}
+                                      }]
                              },
                     "type": "Section", "group": "Income",
                     "Summary": {}}
