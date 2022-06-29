@@ -748,11 +748,17 @@ async def query_profit_and_loss():
             "ColData": column_data_9
         }
     }
+    gross_profit_group = {
+        "type": "Section",
+        "group": "Gross Profit",
+        "Summary": {
+            "ColData": column_data_10
+        }
+    }
     expense_group = {"Header": {}, "type": "Section", "group": "Expense", "Summary": {}}
-    cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
-    gross_profit_group = {"type": "Section", "group": "Gross Profit", "Summary": {}}
     net_operating_income_group = {"type": "Section", "group": "Net Operating Income", "Summary": {}}
     net_income_group = {"type": "Section", "group": "Net Income", "Summary": {}}
+    cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
     net_other_income_group = {"type": "Section", "group": "Net Other Income", "Summary": {}}
     other_expense_group = {"type": "Section", "group": "Other Expense", "Summary": {}}
     profit_and_loss = {
