@@ -728,18 +728,25 @@ async def query_profit_and_loss():
                                 "Summary": {
                                     "ColData": column_data_6
                                 }
-                            },
-                            {column_data_8}
+                            }
                         ]
                     },
                     "type": "Section",
-                    "Summary": {}
+                    "Summary": {
+                        column_data_7
+                    }
                 },
+                {
+                    "ColData": column_data_8,
+                    "type": "Data"
+                }
             ]
         },
         "type": "Section",
         "group": "Income",
-        "Summary": {}
+        "Summary": {
+            "ColData": column_data_9
+        }
     }
     expense_group = {"Header": {}, "type": "Section", "group": "Expense", "Summary": {}}
     cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
