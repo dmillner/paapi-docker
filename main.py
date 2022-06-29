@@ -733,7 +733,7 @@ async def query_profit_and_loss():
                     },
                     "type": "Section",
                     "Summary": {
-                        column_data_7
+                        "ColData": column_data_7
                     }
                 },
                 {
