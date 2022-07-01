@@ -271,7 +271,7 @@ class JournalEntry(BaseModel):
                 ],
                 "description": "Revenue from garage sale",
                 "posted": True,
-                "journal_type": "",
+                "journal_type": "Cash Receipts",
                 "validate_journal_type": False
             }
         }
@@ -317,7 +317,7 @@ class UpdateJournalEntry(BaseModel):
                 ],
                 "description": "Revenue from garage sale",
                 "posted": True,
-                "journal_type": "",
+                "journal_type": "Cash Receipts",
                 "validate_journal_type": False
             }
         }
