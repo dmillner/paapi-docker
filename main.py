@@ -53,6 +53,17 @@ class TaxType(str, Enum):
     GSTONIMPORTS = "GSTONIMPORTS"
 
 
+class JournalType(str, Enum):
+    CASH_RECEIPTS = 0
+    CASH_DISBURSEMENTS = 1
+    SALES = 2
+    PURCHASE = 3
+    SALES_ORDER = 4
+    PURCHASE_ORDER = 5
+    QUOTES = 6
+    PAYROLL = 7
+
+
 class MetaData(BaseModel):
     create_time: Optional[str] = None
     last_updated_time: Optional[str] = None
