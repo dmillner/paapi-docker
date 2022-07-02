@@ -54,14 +54,14 @@ class TaxType(str, Enum):
 
 
 class JournalType(str, Enum):
-    CASH_RECEIPTS = 0
-    CASH_DISBURSEMENTS = 1
-    SALES = 2
-    PURCHASE = 3
-    SALES_ORDER = 4
-    PURCHASE_ORDER = 5
-    QUOTES = 6
-    PAYROLL = 7
+    CASH_RECEIPTS = "CASH RECEIPTS"
+    CASH_DISBURSEMENTS = "CASH DISBURSEMENTS"
+    SALES = "SALES"
+    PURCHASE = "PURCHASES"
+    SALES_ORDER = "SALES ORDER"
+    PURCHASE_ORDER = "PURCHASE ORDER"
+    QUOTES = "QUOTES"
+    PAYROLL = "PAYROLL"
 
 
 class MetaData(BaseModel):
