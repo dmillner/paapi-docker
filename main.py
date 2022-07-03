@@ -54,12 +54,12 @@ class TaxType(str, Enum):
 
 
 class JournalType(str, Enum):
-    CASH_RECEIPTS = "CASH RECEIPTS"
-    CASH_DISBURSEMENTS = "CASH DISBURSEMENTS"
+    CASH_RECEIPTS = "CASH_RECEIPTS"
+    CASH_DISBURSEMENTS = "CASH_DISBURSEMENTS"
     SALES = "SALES"
-    PURCHASE = "PURCHASES"
-    SALES_ORDER = "SALES ORDER"
-    PURCHASE_ORDER = "PURCHASE ORDER"
+    PURCHASE = "PURCHASE"
+    SALES_ORDER = "SALES_ORDER"
+    PURCHASE_ORDER = "PURCHASE_ORDER"
     QUOTES = "QUOTES"
     PAYROLL = "PAYROLL"
 
@@ -259,7 +259,7 @@ class JournalEntry(BaseModel):
     journal_lines: List[JournalLineItems] = None
     description: Optional[str] = None
     posted: Optional[bool] = True
-    journal_type: Optional[str] = None
+    journal_type: Optional[JournalType] = None
     validate_journal_type: Optional[bool] = False
 
     class Config:
@@ -282,7 +282,7 @@ class JournalEntry(BaseModel):
                 ],
                 "description": "Revenue from garage sale",
                 "posted": True,
-                "journal_type": "Cash Receipts",
+                "journal_type": "CASH_RECEIPTS",
                 "validate_journal_type": False
             }
         }
@@ -294,7 +294,7 @@ class JournalEntryResponse(BaseModel):
     journal_lines: List[JournalLineItems] = None
     description: Optional[str] = None
     posted: Optional[bool] = True
-    journal_type: Optional[str] = None
+    journal_type: Optional[JournalType] = None
     validate_journal_type: Optional[bool] = False
 
 
@@ -304,7 +304,7 @@ class UpdateJournalEntry(BaseModel):
     journal_lines: Optional[List[JournalLineItems]] = None
     description: Optional[str] = None
     posted: Optional[bool] = True
-    journal_type: Optional[str] = None
+    journal_type: Optional[JournalType] = None
     validate_journal_type: Optional[bool] = False
 
     class Config:
@@ -328,7 +328,7 @@ class UpdateJournalEntry(BaseModel):
                 ],
                 "description": "Revenue from garage sale",
                 "posted": True,
-                "journal_type": "Cash Receipts",
+                "journal_type": "CASH_RECEIPTS",
                 "validate_journal_type": False
             }
         }
