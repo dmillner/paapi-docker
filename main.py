@@ -709,6 +709,9 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
             print(f"The row is {row['journal_lines']}")
             journal_lines = json.loads(row['journal_lines'])
             row['journal_lines'] = journal_lines
+            print(
+                f"account_type for each row is debit: {row['journal_lines'][0]['account_type']},"
+                f"credit: {row['journal_lines'][1]['account_type']} ")
             final_results.append(row)
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
