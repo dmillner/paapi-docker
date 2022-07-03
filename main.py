@@ -696,6 +696,25 @@ async def delete_journal_entry(journal_entry_id: str):
 
 @app.get("/reports/profit_and_loss", tags=["Reports"])
 async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Optional[date] = None):
+    """
+        Query a journal entry using a sql statement:
+
+    """
+
+    result = journal_entry_table.find(date={'between': [start_date, end_date]})
+    final_results = []
+    print(f"The result is {result}")
+    if result:
+        for row in result:
+            print(f"The row is {row['journal_lines']}")
+            journal_lines = json.loads(row['journal_lines'])
+            row['journal_lines'] = journal_lines
+            final_results.append(row)
+    else:
+        raise HTTPException(status_code=404, detail="Journal Entry not found")
+
+    print(f"final results are {final_results}")
+
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
     column_data_3 = [{"id": "46", "value": "Job Materials"}, {"value": ""}]
