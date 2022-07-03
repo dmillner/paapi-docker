@@ -4,7 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
 import dataset
-from datetime import datetime, timezone
+from datetime import datetime, date, timezone
 import json
 
 # connecting to a SQLite database
@@ -695,7 +695,7 @@ async def delete_journal_entry(journal_entry_id: str):
 
 
 @app.get("/reports/profit_and_loss", tags=["Reports"])
-async def query_profit_and_loss():
+async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Optional[date] = None):
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
     column_data_3 = [{"id": "46", "value": "Job Materials"}, {"value": ""}]
