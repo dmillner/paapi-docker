@@ -831,10 +831,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
                 }
             ],
             "ReportBasis": "Accrual",
-            "StartPeriod": "2022-06-01",
+            "StartPeriod": f'{start_date}',
             "Currency": "USD",
-            "EndPeriod": "2022-06-30",
-            "Time": "2022-03-03T13:00:18-08:00",
+            "EndPeriod": f'{end_date}',
+            "Time": f'{datetime.now()}',
             "SummarizeColumnsBy": "Total"
         },
         "Rows": {
