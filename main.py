@@ -708,15 +708,22 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
         for row in result:
             print(f"The row is {row['journal_lines']}")
             journal_lines = json.loads(row['journal_lines'])
+            for each in journal_lines:
+                print(f"each in journal_lines is {each}")
+                if each['account_type'] == "Revenue":
+                    print(f"This is a REVENUE ACCOUNT {each}")
+                elif each['account_type'] == "Expense":
+                    print(f"This is a EXPENSE ACCOUNT {each}")
+                
             row['journal_lines'] = journal_lines
             print(
-                f"account_type for each row is debit: {row['journal_lines'][0]['account_type']},"
-                f"credit: {row['journal_lines'][1]['account_type']} ")
+                f"account_type for each row is debit: {journal_lines[0]['account_type']},"
+                f"credit: {journal_lines[1]['account_type']} ")
             final_results.append(row)
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
-    print(f"final results are {final_results}")
+    # print(f"final results are {final_results}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
