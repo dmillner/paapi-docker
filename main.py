@@ -711,6 +711,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             journal_lines = json.loads(row['journal_lines'])
             for each in journal_lines:
                 print(f"each in journal_lines is {each}")
+
                 if each['account_type'] == "Revenue":
                     print(f"This is a REVENUE ACCOUNT {each}")
                     try:
@@ -736,6 +737,11 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
     print(f"account balances are {account_balances}")
+    for account in account_balances:
+        account_balances[f'{account}'] = sum(account_balances[f'{account}'])
+        print(f"Account in ACCOUNT BALANCES is {account}")
+
+    print(f"UPDATED account balances are {account_balances}")
     print(f"accounts by type are {accounts_by_type}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
@@ -1121,6 +1127,7 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
             journal_lines = json.loads(row['journal_lines'])
             for each in journal_lines:
                 print(f"each in journal_lines is {each}")
+
                 if each['account_type'] == "Asset":
                     print(f"This is a ASSET ACCOUNT {each}")
                     try:
@@ -1136,6 +1143,7 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
                     except KeyError:
                         account_balances[f"account_code_{each['account_code']}"] = []
                         account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+
                 if each['account_type'] == "Equity":
                     print(f"This is a EQUITY ACCOUNT {each}")
                     try:
