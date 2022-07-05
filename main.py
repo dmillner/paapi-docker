@@ -713,7 +713,11 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
                 print(f"each in journal_lines is {each}")
                 if each['account_type'] == "Revenue":
                     print(f"This is a REVENUE ACCOUNT {each}")
-                    account_balances[f"account_code_{each['account_code']}"] = []
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
                 elif each['account_type'] == "Expense":
                     print(f"This is a EXPENSE ACCOUNT {each}")
 
