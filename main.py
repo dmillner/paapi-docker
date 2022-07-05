@@ -705,6 +705,7 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
     final_results = []
     print(f"The result is {result}")
     account_balances = {}
+    accounts_by_type = {'revenue': {}, 'expense': {}}
     if result:
         for row in result:
             print(f"The row is {row['journal_lines']}")
@@ -718,8 +719,43 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
                     except KeyError:
                         account_balances[f"account_code_{each['account_code']}"] = []
                         account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-                elif each['account_type'] == "Expense":
+
+                    try:
+                        accounts_by_type['revenue'][f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        accounts_by_type['revenue'][f"account_code_{each['account_code']}"] = []
+                        accounts_by_type['revenue'][f"account_code_{each['account_code']}"].append(each['amount'])
+
+                if each['account_type'] == "Expense":
                     print(f"This is a EXPENSE ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+
+                if each['account_type'] == "Asset":
+                    print(f"This is a ASSET ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+
+                if each['account_type'] == "Liability":
+                    print(f"This is a Liability ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                if each['account_type'] == "Equity":
+                    print(f"This is a EQUITY ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
 
             row['journal_lines'] = journal_lines
             print(
@@ -731,6 +767,7 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
 
     # print(f"final results are {final_results}")
     print(f"account balances are {account_balances}")
+    print(f"accounts by type are {accounts_by_type}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
