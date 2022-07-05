@@ -703,7 +703,6 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     result = journal_entry_table.find(date={'between': [start_date, end_date]})
     print(f"The result is {result}")
-    account_balances = {}
     accounts_by_type = {'revenue': {}, 'expense': {}}
     if result:
         for row in result:
@@ -715,12 +714,6 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
                 if each['account_type'] == "Revenue":
                     print(f"This is a REVENUE ACCOUNT {each}")
                     try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-                    except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-
-                    try:
                         accounts_by_type['revenue'][f"account_code_{each['account_code']}"].append(each['amount'])
                     except KeyError:
                         accounts_by_type['revenue'][f"account_code_{each['account_code']}"] = []
@@ -729,18 +722,12 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
                 if each['account_type'] == "Expense":
                     print(f"This is a EXPENSE ACCOUNT {each}")
                     try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['expense'][f"account_code_{each['account_code']}"].append(each['amount'])
                     except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['expense'][f"account_code_{each['account_code']}"] = []
+                        accounts_by_type['expense'][f"account_code_{each['account_code']}"].append(each['amount'])
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
-
-    print(f"account balances are {account_balances}")
-    for account in account_balances:
-        account_balances[f'{account}'] = sum(account_balances[f'{account}'])
-        print(f"Account in ACCOUNT BALANCES is {account}")
-    print(f"UPDATED account balances are {account_balances}")
 
     print(f"accounts by type are {accounts_by_type}")
     for account in accounts_by_type['revenue']:
@@ -1123,7 +1110,6 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
 
     result = journal_entry_table.find(date={'between': [start_date, end_date]})
     print(f"The result is {result}")
-    account_balances = {}
     accounts_by_type = {'asset': {}, 'liability': {}, 'equity': {}}
     if result:
         for row in result:
@@ -1135,30 +1121,29 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
                 if each['account_type'] == "Asset":
                     print(f"This is a ASSET ACCOUNT {each}")
                     try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['asset'][f"account_code_{each['account_code']}"].append(each['amount'])
                     except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['asset'][f"account_code_{each['account_code']}"] = []
+                        accounts_by_type['asset'][f"account_code_{each['account_code']}"].append(each['amount'])
 
                 if each['account_type'] == "Liability":
                     print(f"This is a Liability ACCOUNT {each}")
                     try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['liability'][f"account_code_{each['account_code']}"].append(each['amount'])
                     except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['liability'][f"account_code_{each['account_code']}"] = []
+                        accounts_by_type['liability'][f"account_code_{each['account_code']}"].append(each['amount'])
 
                 if each['account_type'] == "Equity":
                     print(f"This is a EQUITY ACCOUNT {each}")
                     try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['equity'][f"account_code_{each['account_code']}"].append(each['amount'])
                     except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type['equity'][f"account_code_{each['account_code']}"] = []
+                        accounts_by_type['equity'][f"account_code_{each['account_code']}"].append(each['amount'])
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
-    print(f"account balances are {account_balances}")
     print(f"accounts by type are {accounts_by_type}")
     balance_sheet = {}
     return balance_sheet
