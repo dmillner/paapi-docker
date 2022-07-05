@@ -731,8 +731,13 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     print(f"accounts by type are {accounts_by_type}")
     for account in accounts_by_type['revenue']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
         accounts_by_type['revenue'][f'{account}'] = sum(accounts_by_type['revenue'][f'{account}'])
-        print(f"Account in ACCOUNT BALANCES is {account}")
+
+    for account in accounts_by_type['expense']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['expense'][f'{account}'] = sum(accounts_by_type['expense'][f'{account}'])
+
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
@@ -1145,5 +1150,19 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
     print(f"accounts by type are {accounts_by_type}")
+
+    for account in accounts_by_type['asset']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['asset'][f'{account}'] = sum(accounts_by_type['asset'][f'{account}'])
+
+    for account in accounts_by_type['liability']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['liability'][f'{account}'] = sum(accounts_by_type['liability'][f'{account}'])
+
+    for account in accounts_by_type['equity']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['equity'][f'{account}'] = sum(accounts_by_type['equity'][f'{account}'])
+
+    print(f"UPDATED accounts by type are {accounts_by_type}")
     balance_sheet = {}
     return balance_sheet
