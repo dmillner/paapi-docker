@@ -695,14 +695,13 @@ async def delete_journal_entry(journal_entry_id: str):
 
 
 @app.get("/reports/profit_and_loss", tags=["Reports"])
-async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Optional[date] = None):
+async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optional[date] = None):
     """
         Query a journal entry using a sql statement:
 
     """
 
     result = journal_entry_table.find(date={'between': [start_date, end_date]})
-    final_results = []
     print(f"The result is {result}")
     account_balances = {}
     accounts_by_type = {'revenue': {}, 'expense': {}}
@@ -733,39 +732,9 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
                     except KeyError:
                         account_balances[f"account_code_{each['account_code']}"] = []
                         account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-
-                if each['account_type'] == "Asset":
-                    print(f"This is a ASSET ACCOUNT {each}")
-                    try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-                    except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-
-                if each['account_type'] == "Liability":
-                    print(f"This is a Liability ACCOUNT {each}")
-                    try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-                    except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-                if each['account_type'] == "Equity":
-                    print(f"This is a EQUITY ACCOUNT {each}")
-                    try:
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-                    except KeyError:
-                        account_balances[f"account_code_{each['account_code']}"] = []
-                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
-
-            row['journal_lines'] = journal_lines
-            print(
-                f"account_type for each row is debit: {journal_lines[0]['account_type']},"
-                f"credit: {journal_lines[1]['account_type']} ")
-            final_results.append(row)
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
-    # print(f"final results are {final_results}")
     print(f"account balances are {account_balances}")
     print(f"accounts by type are {accounts_by_type}")
 
@@ -1133,3 +1102,51 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
         }
     }
     return profit_and_loss
+
+
+@app.get("/reports/balance_sheet", tags=["Reports"])
+async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optional[date] = None):
+    """
+        Query a journal entry using a sql statement:
+
+    """
+
+    result = journal_entry_table.find(date={'between': [start_date, end_date]})
+    print(f"The result is {result}")
+    account_balances = {}
+    accounts_by_type = {'asset': {}, 'liability': {}, 'equity': {}}
+    if result:
+        for row in result:
+            print(f"The row is {row['journal_lines']}")
+            journal_lines = json.loads(row['journal_lines'])
+            for each in journal_lines:
+                print(f"each in journal_lines is {each}")
+                if each['account_type'] == "Asset":
+                    print(f"This is a ASSET ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+
+                if each['account_type'] == "Liability":
+                    print(f"This is a Liability ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                if each['account_type'] == "Equity":
+                    print(f"This is a EQUITY ACCOUNT {each}")
+                    try:
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+                    except KeyError:
+                        account_balances[f"account_code_{each['account_code']}"] = []
+                        account_balances[f"account_code_{each['account_code']}"].append(each['amount'])
+    else:
+        raise HTTPException(status_code=404, detail="Journal Entry not found")
+
+    print(f"account balances are {account_balances}")
+    print(f"accounts by type are {accounts_by_type}")
+    balance_sheet = {}
+    return balance_sheet
