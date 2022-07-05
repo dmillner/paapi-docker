@@ -740,9 +740,13 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     for account in account_balances:
         account_balances[f'{account}'] = sum(account_balances[f'{account}'])
         print(f"Account in ACCOUNT BALANCES is {account}")
-
     print(f"UPDATED account balances are {account_balances}")
+
     print(f"accounts by type are {accounts_by_type}")
+    for account in accounts_by_type['revenue']:
+        accounts_by_type['revenue'][f'{account}'] = sum(accounts_by_type['revenue'][f'{account}'])
+        print(f"Account in ACCOUNT BALANCES is {account}")
+    print(f"UPDATED accounts by type are {accounts_by_type}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
