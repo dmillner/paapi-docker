@@ -711,21 +711,15 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             for each in journal_lines:
                 print(f"each in journal_lines is {each}")
 
-                if each['account_type'] == "Revenue":
-                    print(f"This is a REVENUE ACCOUNT {each}")
+                if each['account_type'] in ["Revenue", "Expense"]:
+                    key = str(each['account_type']).lower()
+                    print(f"Key is {key}")
                     try:
-                        accounts_by_type['revenue'][f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type[f"{key}"][f"account_code_{each['account_code']}"].append(each['amount'])
                     except KeyError:
-                        accounts_by_type['revenue'][f"account_code_{each['account_code']}"] = []
-                        accounts_by_type['revenue'][f"account_code_{each['account_code']}"].append(each['amount'])
-
-                if each['account_type'] == "Expense":
-                    print(f"This is a EXPENSE ACCOUNT {each}")
-                    try:
-                        accounts_by_type['expense'][f"account_code_{each['account_code']}"].append(each['amount'])
-                    except KeyError:
-                        accounts_by_type['expense'][f"account_code_{each['account_code']}"] = []
-                        accounts_by_type['expense'][f"account_code_{each['account_code']}"].append(each['amount'])
+                        accounts_by_type[f"{key}"][f"account_code_{each['account_code']}"] = []
+                        accounts_by_type[f"{key}"][
+                            f"account_code_{each['account_code']}"].append(each['amount'])
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
