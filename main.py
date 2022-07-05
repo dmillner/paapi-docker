@@ -704,6 +704,7 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
     result = journal_entry_table.find(date={'between': [start_date, end_date]})
     final_results = []
     print(f"The result is {result}")
+    account_balances = {}
     if result:
         for row in result:
             print(f"The row is {row['journal_lines']}")
@@ -712,9 +713,10 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
                 print(f"each in journal_lines is {each}")
                 if each['account_type'] == "Revenue":
                     print(f"This is a REVENUE ACCOUNT {each}")
+                    account_balances[f"account_code_{each['account_code']}"] = []
                 elif each['account_type'] == "Expense":
                     print(f"This is a EXPENSE ACCOUNT {each}")
-                
+
             row['journal_lines'] = journal_lines
             print(
                 f"account_type for each row is debit: {journal_lines[0]['account_type']},"
@@ -724,6 +726,7 @@ async def query_profit_and_loss(start_date: Optional[date] = None, end_date: Opt
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
     # print(f"final results are {final_results}")
+    print(f"account balances are {account_balances}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
