@@ -146,7 +146,7 @@ class Account(BaseModel):
     account_code: str
     account_type: AccountType
     description: Optional[str] = None
-    tax_code: Optional[TaxType] = None
+    tax_type: Optional[TaxType] = None
     inactive: Optional[bool] = False
     meta_data: Optional[MetaData] = None
 
@@ -157,7 +157,7 @@ class Account(BaseModel):
                 "account_code": "101",
                 "account_type": "BANK",
                 "description": "Personal checking account for income and expenses",
-                "tax_code": "NONE",
+                "tax_type": "NONE",
                 "inactive": False,
             }
         }
@@ -187,7 +187,7 @@ class UpdateAccount(BaseModel):
             "example": {
                 "display_name": "Personal Checking Account",
                 "description": "Personal checking account for income and expenses",
-                "tax_code": "NONE",
+                "tax_type": "NONE",
                 "inactive": False,
             }
         }
