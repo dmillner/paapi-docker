@@ -144,7 +144,7 @@ class Account(BaseModel):
                               max_length=100
                               )
     account_code: str
-    account_type: str
+    account_type: AccountType
     description: Optional[str] = None
     tax_code: Optional[TaxType] = None
     inactive: Optional[bool] = False
@@ -155,7 +155,7 @@ class Account(BaseModel):
             "example": {
                 "display_name": "Personal Checking Account",
                 "account_code": "101",
-                "account_type": "Asset",
+                "account_type": "BANK",
                 "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
                 "current_balance": 3500.45,
@@ -168,7 +168,8 @@ class AccountResponse(BaseModel):
     id: Optional[str] = None
     display_name: Optional[str] = None
     account_code: Optional[str] = None
-    account_type: Optional[str] = None
+    account_type: Optional[AccountType] = None
+    account_group: Optional[AccountGroup] = None
     description: Optional[str] = None
     tax_code: Optional[TaxType] = None
     current_balance: Optional[float] = None
@@ -179,8 +180,8 @@ class AccountResponse(BaseModel):
 class UpdateAccountResponse(BaseModel):
     id: Optional[str] = None
     display_name: Optional[str] = None
-    account_code: Optional[str] = None
-    account_type: Optional[str] = None
+    account_type: Optional[AccountType] = None
+    account_group: Optional[AccountGroup] = None
     description: Optional[str] = None
     tax_type: Optional[TaxType] = None
     inactive: Optional[bool] = False
@@ -189,8 +190,6 @@ class UpdateAccountResponse(BaseModel):
 
 class UpdateAccount(BaseModel):
     display_name: Optional[str] = None
-    account_code: Optional[str] = None
-    account_type: Optional[str] = None
     description: Optional[str] = None
     tax_type: Optional[TaxType] = None
     inactive: Optional[bool] = False
@@ -199,8 +198,6 @@ class UpdateAccount(BaseModel):
         schema_extra = {
             "example": {
                 "display_name": "Personal Checking Account",
-                "account_code": "101",
-                "account_type": "Asset",
                 "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
                 "current_balance": 3500.45,
