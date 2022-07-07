@@ -158,7 +158,6 @@ class Account(BaseModel):
                 "account_type": "BANK",
                 "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
-                "current_balance": 3500.45,
                 "inactive": False,
             }
         }
@@ -171,21 +170,10 @@ class AccountResponse(BaseModel):
     account_type: Optional[AccountType] = None
     account_group: Optional[AccountGroup] = None
     description: Optional[str] = None
-    tax_code: Optional[TaxType] = None
+    tax_type: Optional[TaxType] = None
     current_balance: Optional[float] = None
     inactive: Optional[bool] = False
     meta_data: Optional[MetaDataResponse] = None
-
-
-class UpdateAccountResponse(BaseModel):
-    id: Optional[str] = None
-    display_name: Optional[str] = None
-    account_type: Optional[AccountType] = None
-    account_group: Optional[AccountGroup] = None
-    description: Optional[str] = None
-    tax_type: Optional[TaxType] = None
-    inactive: Optional[bool] = False
-    time: Optional[str] = None
 
 
 class UpdateAccount(BaseModel):
@@ -200,10 +188,21 @@ class UpdateAccount(BaseModel):
                 "display_name": "Personal Checking Account",
                 "description": "Personal checking account for income and expenses",
                 "tax_code": "NONE",
-                "current_balance": 3500.45,
                 "inactive": False,
             }
         }
+
+
+class UpdateAccountResponse(BaseModel):
+    id: Optional[str] = None
+    display_name: Optional[str] = None
+    account_type: Optional[AccountType] = None
+    account_group: Optional[AccountGroup] = None
+    description: Optional[str] = None
+    tax_type: Optional[TaxType] = None
+    current_balance: Optional[float] = None
+    inactive: Optional[bool] = False
+    time: Optional[str] = None
 
 
 class CryptoWallet(BaseModel):
