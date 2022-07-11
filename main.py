@@ -782,7 +782,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     column_data_8 = [{"id": "54", "value": "Pest Control Services"}, {"value": "-100.00"}]
     column_data_9 = [{"value": "Total Income"}, {"value": "325.00"}]
     column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
-    income_group = {
+    income_group_template = {
         "Header": {
             "ColData": column_data_1
         },
@@ -834,6 +834,22 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         "Summary": {
             "ColData": column_data_9
         }
+    }
+    income_group = {
+        "Header": {
+            "ColData": [
+                {
+                    "value": "Income"
+                },
+                {
+                    "value": ""
+                }
+            ]
+        },
+        "Rows": {},
+        "type": "Section",
+        "group": "Income",
+        "Summary": {}
     }
     gross_profit_group = {
         "type": "Section",
