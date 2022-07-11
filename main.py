@@ -761,6 +761,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
+    income_rows = []
     for account, balance in accounts_by_type['revenue'].items():
         print(f"Account is {account} and balance is {balance}")
         account_id = str(account).split("_")[-1]
@@ -769,8 +770,11 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         print(f"ColData ID VALUE is {column_data_id_value}")
         column_data_value = {"value": balance}
         print(f"ColData VALUE is {column_data_value}")
-        column_data = [column_data_id_value, column_data_value]
+        column_data = {"ColData": [column_data_id_value, column_data_value]}
         print(f"ColData is {column_data}")
+        income_rows.append(column_data)
+
+    print(f"INCOME_ROWS is {income_rows}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
@@ -846,7 +850,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
                 }
             ]
         },
-        "Rows": {},
+        "Rows": {
+            "Row": []
+
+        },
         "type": "Section",
         "group": "Income",
         "Summary": {}
