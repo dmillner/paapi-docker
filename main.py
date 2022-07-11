@@ -770,7 +770,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         print(f"ColData ID VALUE is {column_data_id_value}")
         column_data_value = {"value": balance}
         print(f"ColData VALUE is {column_data_value}")
-        column_data = {"ColData": [column_data_id_value, column_data_value]}
+        column_data = {"ColData": [column_data_id_value, column_data_value], "type": "Data"}
         print(f"ColData is {column_data}")
         income_rows.append(column_data)
 
