@@ -761,6 +761,15 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
+    for account, balance in accounts_by_type['revenue'].items():
+        print(f"Account is {account} and balance is {balance}")
+        column_data_id_value = {"id": account, "value": str(account).capitalize()}
+        print(f"ColData ID VALUE is {column_data_id_value}")
+        column_data_value = {"value": balance}
+        print(f"ColData VALUE is {column_data_value}")
+        column_data = [column_data_id_value, column_data_value]
+        print(f"ColData is {column_data}")
+
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
     column_data_3 = [{"id": "46", "value": "Job Materials"}, {"value": ""}]
