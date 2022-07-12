@@ -792,6 +792,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     column_data_8 = [{"id": "54", "value": "Pest Control Services"}, {"value": "-100.00"}]
     column_data_9 = [{"value": "Total Income"}, {"value": "325.00"}]
     column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
+    
     income_group_template = {
         "Header": {
             "ColData": column_data_1
@@ -867,18 +868,18 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         }
     }
     income_group['Rows']['Row'] = income_rows
-
     income_group['Summary']['ColData'] = [{"value": "Total Income"}, {"value": f"{absolute_total_income}"}]
-
     print(f"DYNAMIC INCOME_GROUP is {income_group}")
 
     gross_profit_group = {
         "type": "Section",
         "group": "Gross Profit",
         "Summary": {
-            "ColData": column_data_10
+            "ColData": []
         }
     }
+    gross_profit_group['Summary']['ColData'] = [{"value": "Gross Profit"}, {"value": f"{absolute_total_income}"}]
+
     expense_group = {"Header": {}, "type": "Section", "group": "Expense", "Summary": {}}
     net_operating_income_group = {"type": "Section", "group": "Net Operating Income", "Summary": {}}
     net_income_group = {"type": "Section", "group": "Net Income", "Summary": {}}
