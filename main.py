@@ -762,7 +762,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
     income_rows = []
+    total_income = 0
     for account, balance in accounts_by_type['revenue'].items():
+        total_income += balance
+        absolute_total_income = abs(total_income)
         print(f"Account is {account} and balance is {balance}")
         account_id = str(account).split("_")[-1]
         print(f"Account ID is {account_id}")
@@ -775,7 +778,8 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         income_rows.append(column_data)
 
     print(f"INCOME_ROWS is {income_rows}")
-
+    print(f"TOTAL_INCOME is {total_income}")
+    print(f"ABSOLUTE_TOTAL_INCOME is {absolute_total_income}")
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
     column_data_3 = [{"id": "46", "value": "Job Materials"}, {"value": ""}]
