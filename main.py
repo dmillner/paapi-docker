@@ -763,6 +763,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     income_rows = []
     total_income = 0
+    absolute_total_income = 0
     for account, balance in accounts_by_type['revenue'].items():
         total_income += balance
         absolute_total_income = abs(total_income)
@@ -780,6 +781,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"INCOME_ROWS is {income_rows}")
     print(f"TOTAL_INCOME is {total_income}")
     print(f"ABSOLUTE_TOTAL_INCOME is {absolute_total_income}")
+
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
     column_data_3 = [{"id": "46", "value": "Job Materials"}, {"value": ""}]
@@ -860,9 +862,14 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         },
         "type": "Section",
         "group": "Income",
-        "Summary": {}
+        "Summary": {
+            "ColData": []
+        }
     }
     income_group['Rows']['Row'] = income_rows
+
+    income_group['Summary']['ColData'] = [{"value": "Total Income"}, {"value": f"{absolute_total_income}"}]
+
     print(f"DYNAMIC INCOME_GROUP is {income_group}")
 
     gross_profit_group = {
