@@ -858,6 +858,9 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         "group": "Income",
         "Summary": {}
     }
+    income_group['Rows']['Row'] = income_rows
+    print(f"DYNAMIC INCOME_GROUP is {income_group}")
+
     gross_profit_group = {
         "type": "Section",
         "group": "Gross Profit",
@@ -873,7 +876,6 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     other_expense_group = {"type": "Section", "group": "Other Expense", "Summary": {}}
     profit_and_loss = {
         "Header": {
-            "Customer": "1",
             "ReportName": "ProfitAndLoss",
             "Option": [
                 {
