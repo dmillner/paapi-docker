@@ -767,32 +767,33 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     total_income = 0
     print(f"TOTAL INCOME is {total_income}")
 
-    absolute_total_income = abs(total_income)
+    absolute_total_income = 0
     print(f"ABSOLUTE TOTAL INCOME is {absolute_total_income}")
 
     total_cost_of_goods_sold = 0
     print(f"TOTAL COSTS OF GOODS SOLD is {total_cost_of_goods_sold}")
 
-    gross_profit = absolute_total_income - total_cost_of_goods_sold
+    gross_profit = 0
     print(f"GROSS PROFIT is {gross_profit}")
 
     total_expenses = 0
     print(f"TOTAL EXPENSES is {total_expenses}")
 
-    net_operating_income = gross_profit - total_expenses
+    net_operating_income = 0
     print(f"NET OPERATING INCOME is {net_operating_income}")
 
     total_other_expenses = 0
     print(f"TOTAL OTHER EXPENSES is {total_other_expenses}")
 
-    net_other_income = 0 - total_other_expenses
+    net_other_income = 0
     print(f"NET OTHER INCOME is {net_other_income}")
 
-    net_income = net_operating_income + net_other_income
+    net_income = 0
     print(f"NET INCOME is {net_income}")
 
     for account, balance in accounts_by_type['revenue'].items():
         total_income += balance
+        absolute_total_income += abs(balance)
         print(f"Account is {account} and balance is {balance}")
         account_id = str(account).split("_")[-1]
         print(f"Account ID is {account_id}")
@@ -803,6 +804,18 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         column_data = {"ColData": [column_data_id_value, column_data_value], "type": "Data"}
         print(f"ColData is {column_data}")
         income_rows.append(column_data)
+
+    gross_profit = absolute_total_income - total_cost_of_goods_sold
+    print(f"GROSS PROFIT is {gross_profit}")
+
+    net_operating_income = gross_profit - total_expenses
+    print(f"NET OPERATING INCOME is {net_operating_income}")
+
+    net_income = net_operating_income + net_other_income
+    print(f"NET INCOME is {net_income}")
+
+    net_other_income = 0 - total_other_expenses
+    print(f"NET OTHER INCOME is {net_other_income}")
 
     print(f"INCOME_ROWS is {income_rows}")
     print(f"TOTAL_INCOME is {total_income}")
