@@ -923,7 +923,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         }
     }
     income_group['Rows']['Row'] = income_rows
-    income_group['Summary']['ColData'] = [{"value": "Total Income"}, {"value": f"{absolute_total_income}"}]
+    income_group['Summary']['ColData'] = [
+        {"value": "Total Income"},
+        {"value": f"{absolute_total_income}"}
+    ]
     print(f"DYNAMIC INCOME_GROUP is {income_group}")
 
     cogs_group = {
@@ -933,7 +936,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
-    cogs_group['Summary']['ColData'] = [{"value": "Total Cost of Goods Sold"}, {"value": f"{total_cost_of_goods_sold}"}]
+    cogs_group['Summary']['ColData'] = [
+        {"value": "Total Cost of Goods Sold"},
+        {"value": f"{total_cost_of_goods_sold}"}
+    ]
     print(f"DYNAMIC COGS GROUP is {cogs_group}")
 
     gross_profit_group = {
@@ -943,7 +949,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
-    gross_profit_group['Summary']['ColData'] = [{"value": "Gross Profit"}, {"value": f"{gross_profit}"}]
+    gross_profit_group['Summary']['ColData'] = [
+        {"value": "Gross Profit"},
+        {"value": f"{gross_profit}"}
+    ]
     print(f"DYNAMIC GROSS PROFIT GROUP is {gross_profit_group}")
 
     expense_group = {
@@ -968,7 +977,10 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         }
     }
     expense_group['Rows']['Row'] = expense_rows
-    expense_group['Summary']['ColData'] = [{"value": "Total Expenses"}, {"value": f"{total_expenses}"}]
+    expense_group['Summary']['ColData'] = [
+        {"value": "Total Expenses"},
+        {"value": f"{total_expenses}"}
+    ]
     print(f"DYNAMIC EXPENSE GROUP is {expense_group}")
 
     net_operating_income_group = {
@@ -978,6 +990,12 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
+    net_operating_income_group['Summary']['ColData'] = [
+        {"value": "Net Operating Income"},
+        {"value": f"{net_operating_income}"}
+    ]
+    print(f"NET OPERATING INCOME GROUP is {net_operating_income_group}")
+
     net_income_group = {
         "type": "Section",
         "group": "Net Income",
@@ -985,6 +1003,12 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
+    net_income_group['Summary']['ColData'] = [
+        {"value": "Net Income"},
+        {"value": f"{net_income}"}
+    ]
+    print(f"NET INCOME GROUP is {net_income_group}")
+
     net_other_income_group = {
         "type": "Section",
         "group": "Net Other Income",
@@ -992,6 +1016,12 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
+    net_other_income_group['Summary']['ColData'] = [
+        {"value": "Net Other Income"},
+        {"value": f"{net_other_income}"}
+    ]
+    print(f"NET OTHER INCOME GROUP is {net_other_income_group}")
+
     other_expense_group = {
         "type": "Section",
         "group": "Other Expense",
@@ -999,6 +1029,11 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
+    other_expense_group['Summary']['ColData'] = [
+        {"value": "Other Expense"},
+        {"value": f"{total_other_expenses}"}
+    ]
+    print(f"OTHER EXPENSE GROUP is {other_expense_group}")
 
     qb_profit_and_loss = {
         "Header": {
