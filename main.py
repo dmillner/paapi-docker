@@ -815,7 +815,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         print(f"Account ID is {account_id}")
         column_data_id_value = {"id": account_id, "value": str(account).capitalize()}
         print(f"ColData ID VALUE is {column_data_id_value}")
-        column_data_value = {"value": str(balance * -1)}
+        column_data_value = {"value": str(balance)}
         print(f"ColData VALUE is {column_data_value}")
         column_data = {"ColData": [column_data_id_value, column_data_value], "type": "Data"}
         print(f"ColData is {column_data}")
