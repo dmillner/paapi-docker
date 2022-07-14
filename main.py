@@ -934,6 +934,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         }
     }
     gross_profit_group['Summary']['ColData'] = [{"value": "Gross Profit"}, {"value": f"{gross_profit}"}]
+    print(f"DYNAMIC GROSS PROFIT GROUP is {gross_profit_group}")
 
     expense_group = {
         "Header": {
