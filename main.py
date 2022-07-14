@@ -766,7 +766,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     total_income = 0
     print(f"TOTAL INCOME is {total_income}")
 
-    absolute_total_income = 0
+    absolute_total_income = abs(total_income)
     print(f"ABSOLUTE TOTAL INCOME is {absolute_total_income}")
 
     total_cost_of_goods_sold = 0
@@ -792,7 +792,6 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     for account, balance in accounts_by_type['revenue'].items():
         total_income += balance
-        absolute_total_income = abs(total_income)
         print(f"Account is {account} and balance is {balance}")
         account_id = str(account).split("_")[-1]
         print(f"Account ID is {account_id}")
