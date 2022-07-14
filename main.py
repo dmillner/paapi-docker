@@ -920,9 +920,33 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             "ColData": []
         }
     }
-    gross_profit_group['Summary']['ColData'] = [{"value": "Gross Profit"}, {"value": f"{absolute_total_income}"}]
+    gross_profit_group['Summary']['ColData'] = [{"value": "Gross Profit"}, {"value": f"{gross_profit}"}]
 
-    expense_group = {"Header": {}, "type": "Section", "group": "Expense", "Summary": {}}
+    expense_group = {
+        "Header": {
+            "ColData": [
+                {
+                    "value": "Expenses"
+                },
+                {
+                    "value": ""
+                }
+            ]
+        },
+        "Rows": {
+            "Row": []
+
+        },
+        "type": "Section",
+        "group": "Expense",
+        "Summary": {
+            "ColData": []
+        }
+    }
+    expense_group['Rows']['Row'] = expense_rows
+    expense_group['Summary']['ColData'] = [{"value": "Total Expenses"}, {"value": f"{total_expenses}"}]
+    print(f"DYNAMIC EXPENSE GROUP is {expense_group}")
+
     net_operating_income_group = {"type": "Section", "group": "Net Operating Income", "Summary": {}}
     net_income_group = {"type": "Section", "group": "Net Income", "Summary": {}}
     cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
