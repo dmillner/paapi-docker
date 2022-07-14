@@ -295,13 +295,13 @@ class JournalEntry(BaseModel):
                 "journal_lines": [
                     {
                         "account_code": "101",
-                        "account_type": "Asset",
+                        "account_type": "BANK",
                         "amount": 1000.0,
                         "posting_type": "Debit",
                     },
                     {
                         "account_code": "400",
-                        "account_type": "Revenue",
+                        "account_type": "REVENUE",
                         "amount": 1000.0,
                         "posting_type": "Credit",
                     }
@@ -341,13 +341,13 @@ class UpdateJournalEntry(BaseModel):
                 "journal_lines": [
                     {
                         "account_code": "101",
-                        "account_type": "Asset",
+                        "account_type": "BANK",
                         "amount": 1000.0,
                         "posting_type": "Debit",
                     },
                     {
                         "account_code": "400",
-                        "account_type": "Revenue",
+                        "account_type": "REVENUE",
                         "amount": 1000.0,
                         "posting_type": "Credit",
                     }
@@ -762,7 +762,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
     income_rows = []
-    
+
     total_income = 0
     print(f"TOTAL INCOME is {total_income}")
 
