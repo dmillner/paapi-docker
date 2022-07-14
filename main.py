@@ -762,8 +762,34 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
     income_rows = []
+    
     total_income = 0
+    print(f"TOTAL INCOME is {total_income}")
+
     absolute_total_income = 0
+    print(f"ABSOLUTE TOTAL INCOME is {absolute_total_income}")
+
+    total_cost_of_goods_sold = 0
+    print(f"TOTAL COSTS OF GOODS SOLD is {total_cost_of_goods_sold}")
+
+    gross_profit = absolute_total_income - total_cost_of_goods_sold
+    print(f"GROSS PROFIT is {gross_profit}")
+
+    total_expenses = 0
+    print(f"TOTAL EXPENSES is {total_expenses}")
+
+    net_operating_income = gross_profit - total_expenses
+    print(f"NET OPERATING INCOME is {net_operating_income}")
+
+    total_other_expenses = 0
+    print(f"TOTAL OTHER EXPENSES is {total_other_expenses}")
+
+    net_other_income = 0 - total_other_expenses
+    print(f"NET OTHER INCOME is {net_other_income}")
+
+    net_income = net_operating_income + net_other_income
+    print(f"NET INCOME is {net_income}")
+
     for account, balance in accounts_by_type['revenue'].items():
         total_income += balance
         absolute_total_income = abs(total_income)
@@ -792,7 +818,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     column_data_8 = [{"id": "54", "value": "Pest Control Services"}, {"value": "-100.00"}]
     column_data_9 = [{"value": "Total Income"}, {"value": "325.00"}]
     column_data_10 = [{"value": "Gross Profit"}, {"value": "325.00"}]
-    
+
     income_group_template = {
         "Header": {
             "ColData": column_data_1
@@ -886,6 +912,235 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     cogs_group = {"type": "Section", "group": "COGS", "Summary": {}}
     net_other_income_group = {"type": "Section", "group": "Net Other Income", "Summary": {}}
     other_expense_group = {"type": "Section", "group": "Other Expense", "Summary": {}}
+
+    qb_profit_and_loss = {
+        "Header": {
+            "Time": "2022-07-12T16:11:19-07:00",
+            "ReportName": "ProfitAndLoss",
+            "ReportBasis": "Accrual",
+            "StartPeriod": "2020-06-01",
+            "EndPeriod": "2021-06-30",
+            "SummarizeColumnsBy": "Total",
+            "Currency": "USD",
+            "Option": [
+                {
+                    "Name": "AccountingStandard",
+                    "Value": "GAAP"
+                },
+                {
+                    "Name": "NoReportData",
+                    "Value": "false"
+                }
+            ]
+        },
+        "Columns": {
+            "Column": [
+                {
+                    "ColTitle": "",
+                    "ColType": "Account",
+                    "MetaData": [
+                        {
+                            "Name": "ColKey",
+                            "Value": "account"
+                        }
+                    ]
+                },
+                {
+                    "ColTitle": "Total",
+                    "ColType": "Money",
+                    "MetaData": [
+                        {
+                            "Name": "ColKey",
+                            "Value": "total"
+                        }
+                    ]
+                }
+            ]
+        },
+        "Rows": {
+            "Row": [
+                {
+                    "Header": {
+                        "ColData": [
+                            {
+                                "value": "Income"
+                            },
+                            {
+                                "value": ""
+                            }
+                        ]
+                    },
+                    "Rows": {
+                        "Row": [
+                            {
+                                "Header": {
+                                    "ColData": [
+                                        {
+                                            "value": "Landscaping Services",
+                                            "id": "45"
+                                        },
+                                        {
+                                            "value": ""
+                                        }
+                                    ]
+                                },
+                                "Rows": {
+                                    "Row": [
+                                        {
+                                            "Header": {
+                                                "ColData": [
+                                                    {
+                                                        "value": "Job Materials",
+                                                        "id": "46"
+                                                    },
+                                                    {
+                                                        "value": ""
+                                                    }
+                                                ]
+                                            },
+                                            "Rows": {
+                                                "Row": [
+                                                    {
+                                                        "ColData": [
+                                                            {
+                                                                "value": "Fountains and Garden Lighting",
+                                                                "id": "48"
+                                                            },
+                                                            {
+                                                                "value": "50.00"
+                                                            }
+                                                        ],
+                                                        "type": "Data"
+                                                    }
+                                                ]
+                                            },
+                                            "Summary": {
+                                                "ColData": [
+                                                    {
+                                                        "value": "Total Job Materials"
+                                                    },
+                                                    {
+                                                        "value": "50.00"
+                                                    }
+                                                ]
+                                            },
+                                            "type": "Section"
+                                        }
+                                    ]
+                                },
+                                "Summary": {
+                                    "ColData": [
+                                        {
+                                            "value": "Total Landscaping Services"
+                                        },
+                                        {
+                                            "value": "50.00"
+                                        }
+                                    ]
+                                },
+                                "type": "Section"
+                            }
+                        ]
+                    },
+                    "Summary": {
+                        "ColData": [
+                            {
+                                "value": "Total Income"
+                            },
+                            {
+                                "value": "50.00"
+                            }
+                        ]
+                    },
+                    "type": "Section",
+                    "group": "Income"
+                },
+                {
+                    "Summary": {
+                        "ColData": [
+                            {
+                                "value": "Gross Profit"
+                            },
+                            {
+                                "value": "50.00"
+                            }
+                        ]
+                    },
+                    "type": "Section",
+                    "group": "GrossProfit"
+                },
+                {
+                    "Header": {
+                        "ColData": [
+                            {
+                                "value": "Expenses"
+                            },
+                            {
+                                "value": ""
+                            }
+                        ]
+                    },
+                    "Rows": {
+                        "Row": [
+                            {
+                                "ColData": [
+                                    {
+                                        "value": "Automobile",
+                                        "id": "55"
+                                    },
+                                    {
+                                        "value": "53.99"
+                                    }
+                                ],
+                                "type": "Data"
+                            }
+                        ]
+                    },
+                    "Summary": {
+                        "ColData": [
+                            {
+                                "value": "Total Expenses"
+                            },
+                            {
+                                "value": "53.99"
+                            }
+                        ]
+                    },
+                    "type": "Section",
+                    "group": "Expenses"
+                },
+                {
+                    "Summary": {
+                        "ColData": [
+                            {
+                                "value": "Net Operating Income"
+                            },
+                            {
+                                "value": "-3.99"
+                            }
+                        ]
+                    },
+                    "type": "Section",
+                    "group": "NetOperatingIncome"
+                },
+                {
+                    "Summary": {
+                        "ColData": [
+                            {
+                                "value": "Net Income"
+                            },
+                            {
+                                "value": "-3.99"
+                            }
+                        ]
+                    },
+                    "type": "Section",
+                    "group": "NetIncome"
+                }
+            ]
+        }
+    }
+
     profit_and_loss = {
         "Header": {
             "ReportName": "ProfitAndLoss",
@@ -1172,6 +1427,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             ]
         }
     }
+
     return profit_and_loss
 
 
