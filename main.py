@@ -762,6 +762,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
     income_rows = []
+    expense_rows = []
 
     total_income = 0
     print(f"TOTAL INCOME is {total_income}")
@@ -806,6 +807,22 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"INCOME_ROWS is {income_rows}")
     print(f"TOTAL_INCOME is {total_income}")
     print(f"ABSOLUTE_TOTAL_INCOME is {absolute_total_income}")
+
+    for account, balance in accounts_by_type['expense'].items():
+        total_expenses += balance
+        print(f"Account is {account} and balance is {balance}")
+        account_id = str(account).split("_")[-1]
+        print(f"Account ID is {account_id}")
+        column_data_id_value = {"id": account_id, "value": str(account).capitalize()}
+        print(f"ColData ID VALUE is {column_data_id_value}")
+        column_data_value = {"value": str(balance * -1)}
+        print(f"ColData VALUE is {column_data_value}")
+        column_data = {"ColData": [column_data_id_value, column_data_value], "type": "Data"}
+        print(f"ColData is {column_data}")
+        expense_rows.append(column_data)
+
+    print(f"EXPENSE_ROWS is {expense_rows}")
+    print(f"TOTAL_EXPENSES is {total_expenses}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
