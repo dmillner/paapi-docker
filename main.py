@@ -1285,7 +1285,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         },
         "Rows": {
             "Row": [income_group, cogs_group, gross_profit_group, expense_group, net_operating_income_group,
-                    net_other_income_group, other_expense_group, net_income_group]
+                    other_expense_group, net_other_income_group, net_income_group]
         },
         "Columns": {
             "Column": [
