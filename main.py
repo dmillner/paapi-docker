@@ -810,6 +810,9 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         print(f"ColData is {column_data}")
         income_rows.append(column_data)
 
+    print(f"INCOME_ROWS is {income_rows}")
+    print(f"TOTAL_INCOME is {total_income}")
+
     for account, balance in accounts_by_type['cogs'].items():
         total_cogs += balance
         print(f"Account is {account} and balance is {balance}")
