@@ -787,6 +787,9 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     net_operating_income = 0
     print(f"NET OPERATING INCOME is {net_operating_income}")
 
+    total_other_income = 0
+    print(f"TOTAL OTHER INCOME is {total_other_income}")
+
     total_other_expenses = 0
     print(f"TOTAL OTHER EXPENSES is {total_other_expenses}")
 
@@ -954,12 +957,27 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"DYNAMIC INCOME_GROUP is {income_group}")
 
     cogs_group = {
+        "Header": {
+            "ColData": [
+                {
+                    "value": "Cost of Goods Sold"
+                },
+                {
+                    "value": ""
+                }
+            ]
+        },
+        "Rows": {
+            "Row": []
+
+        },
         "type": "Section",
         "group": "COGS",
         "Summary": {
             "ColData": []
         }
     }
+    cogs_group['Rows']['Row'] = cogs_rows
     cogs_group['Summary']['ColData'] = [
         {"value": "Total Cost of Goods Sold"},
         {"value": f"{total_cogs}"}
@@ -1046,18 +1064,31 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     ]
     print(f"NET OTHER INCOME GROUP is {net_other_income_group}")
 
-    other_expense_group = {
+    other_income_group = {
         "type": "Section",
-        "group": "Other Expense",
+        "group": "Other Income",
         "Summary": {
             "ColData": []
         }
     }
-    other_expense_group['Summary']['ColData'] = [
-        {"value": "Other Expense"},
+    other_income_group['Summary']['ColData'] = [
+        {"value": "Total Other Income"},
+        {"value": f"{total_other_income}"}
+    ]
+    print(f"OTHER INCOME GROUP is {other_income_group}")
+
+    other_expenses_group = {
+        "type": "Section",
+        "group": "Other Expenses",
+        "Summary": {
+            "ColData": []
+        }
+    }
+    other_expenses_group['Summary']['ColData'] = [
+        {"value": "Total Other Expenses"},
         {"value": f"{total_other_expenses}"}
     ]
-    print(f"OTHER EXPENSE GROUP is {other_expense_group}")
+    print(f"OTHER EXPENSE GROUP is {other_expenses_group}")
 
     qb_profit_and_loss = {
         "Header": {
@@ -1309,7 +1340,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         },
         "Rows": {
             "Row": [income_group, cogs_group, gross_profit_group, expense_group, net_operating_income_group,
-                    other_expense_group, net_other_income_group, net_income_group]
+                    other_income_group, other_expenses_group, net_other_income_group, net_income_group]
         },
         "Columns": {
             "Column": [
