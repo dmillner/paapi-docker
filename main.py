@@ -84,6 +84,8 @@ class AccountType(str, Enum):
     REVENUE = "REVENUE"
     COGS = "COGS"
     EXPENSE = "EXPENSE"
+    OTHER_EXPENSES = "OTHER_EXPENSES"
+    OTHER_INCOME = "OTHER_INCOME"
 
 
 class AccountGroup(str, Enum):
@@ -729,7 +731,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     result = journal_entry_table.find(date={'between': [start_date, end_date]})
     print(f"The result is {result}")
-    accounts_by_type = {'revenue': {}, 'cogs': {}, 'expense': {}}
+    accounts_by_type = {'revenue': {}, 'cogs': {}, 'expense': {}, 'other_income': {}, 'other_expenses': {}}
     if result:
         for row in result:
             print(f"The row is {row['journal_lines']}")
@@ -737,7 +739,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             for each in journal_lines:
                 print(f"each in journal_lines is {each}")
 
-                if each['account_type'] in ["REVENUE", "COGS", "EXPENSE"]:
+                if each['account_type'] in ["REVENUE", "COGS", "EXPENSE", "OTHER_INCOME", "OTHER_EXPENSES"]:
                     key = str(each['account_type']).lower()
                     print(f"Key is {key}")
                     try:
@@ -763,17 +765,30 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
         print(f"account in ACCOUNTS BY TYPE is {account}")
         accounts_by_type['expense'][f'{account}'] = sum(accounts_by_type['expense'][f'{account}'])
 
+    for account in accounts_by_type['other_income']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['other_income'][f'{account}'] = sum(accounts_by_type['other_income'][f'{account}'])
+
+    for account in accounts_by_type['other_expenses']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['other_expenses'][f'{account}'] = sum(accounts_by_type['other_expenses'][f'{account}'])
+
     print(f"UPDATED accounts by type are {accounts_by_type}")
 
     income_rows = []
     cogs_rows = []
     expense_rows = []
+    other_income_rows = []
+    other_expenses_rows = []
 
     total_income = 0
     print(f"TOTAL INCOME is {total_income}")
 
     absolute_total_income = 0
     print(f"ABSOLUTE TOTAL INCOME is {absolute_total_income}")
+
+    absolute_total_other_income = 0
+    print(f"ABSOLUTE TOTAL OTHER INCOME is {absolute_total_other_income}")
 
     total_cogs = 0
     print(f"TOTAL COSTS OF GOODS SOLD is {total_cogs}")
@@ -815,6 +830,7 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
 
     print(f"INCOME_ROWS is {income_rows}")
     print(f"TOTAL_INCOME is {total_income}")
+    print(f"ABSOLUTE_TOTAL_INCOME is {absolute_total_income}")
 
     for account, balance in accounts_by_type['cogs'].items():
         total_cogs += balance
@@ -848,6 +864,40 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"EXPENSE_ROWS is {expense_rows}")
     print(f"TOTAL_EXPENSES is {total_expenses}")
 
+    for account, balance in accounts_by_type['other_income'].items():
+        total_other_income += balance
+        absolute_total_other_income += abs(balance)
+        print(f"Account is {account} and balance is {balance}")
+        account_id = str(account).split("_")[-1]
+        print(f"Account ID is {account_id}")
+        column_data_id_value = {"id": account_id, "value": str(account).capitalize()}
+        print(f"ColData ID VALUE is {column_data_id_value}")
+        column_data_value = {"value": str(balance * -1)}
+        print(f"ColData VALUE is {column_data_value}")
+        column_data = {"ColData": [column_data_id_value, column_data_value], "type": "Data"}
+        print(f"ColData is {column_data}")
+        other_income_rows.append(column_data)
+
+    print(f"OTHER_INCOME_ROWS is {other_income_rows}")
+    print(f"TOTAL_OTHER_INCOME is {total_other_income}")
+    print(f"ABSOLUTE_TOTAL_OTHER_INCOME is {absolute_total_other_income}")
+
+    for account, balance in accounts_by_type['other_expenses'].items():
+        total_other_expenses += balance
+        print(f"Account is {account} and balance is {balance}")
+        account_id = str(account).split("_")[-1]
+        print(f"Account ID is {account_id}")
+        column_data_id_value = {"id": account_id, "value": str(account).capitalize()}
+        print(f"ColData ID VALUE is {column_data_id_value}")
+        column_data_value = {"value": str(balance)}
+        print(f"ColData VALUE is {column_data_value}")
+        column_data = {"ColData": [column_data_id_value, column_data_value], "type": "Data"}
+        print(f"ColData is {column_data}")
+        other_expenses_rows.append(column_data)
+
+    print(f"OTHER_EXPENSES_ROWS is {other_expenses_rows}")
+    print(f"TOTAL_OTHER_EXPENSES is {total_other_expenses}")
+
     gross_profit = absolute_total_income - total_cogs
     print(f"GROSS PROFIT is {gross_profit}")
 
@@ -857,12 +907,8 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     net_income = net_operating_income + net_other_income
     print(f"NET INCOME is {net_income}")
 
-    net_other_income = 0 - total_other_expenses
+    net_other_income = absolute_total_other_income - total_other_expenses
     print(f"NET OTHER INCOME is {net_other_income}")
-
-    print(f"INCOME_ROWS is {income_rows}")
-    print(f"TOTAL_INCOME is {total_income}")
-    print(f"ABSOLUTE_TOTAL_INCOME is {absolute_total_income}")
 
     column_data_1 = [{"value": "Income"}, {"value": ""}]
     column_data_2 = [{"id": "45", "value": "Landscaping Services"}, {"value": ""}]
