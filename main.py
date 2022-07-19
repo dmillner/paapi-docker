@@ -1111,12 +1111,28 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"NET OTHER INCOME GROUP is {net_other_income_group}")
 
     other_income_group = {
+        "Header": {
+            "ColData": [
+                {
+                    "value": "Other Income"
+                },
+                {
+                    "value": ""
+                }
+            ]
+        },
+        "Rows": {
+            "Row": []
+
+        },
         "type": "Section",
         "group": "Other Income",
         "Summary": {
             "ColData": []
         }
     }
+
+    other_income_group['Rows']['Row'] = other_income_rows
     other_income_group['Summary']['ColData'] = [
         {"value": "Total Other Income"},
         {"value": f"{total_other_income}"}
@@ -1124,12 +1140,27 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
     print(f"OTHER INCOME GROUP is {other_income_group}")
 
     other_expenses_group = {
+        "Header": {
+            "ColData": [
+                {
+                    "value": "Other Expenses"
+                },
+                {
+                    "value": ""
+                }
+            ]
+        },
+        "Rows": {
+            "Row": []
+
+        },
         "type": "Section",
         "group": "Other Expenses",
         "Summary": {
             "ColData": []
         }
     }
+    other_expenses_group['Rows']['Row'] = other_expenses_rows
     other_expenses_group['Summary']['ColData'] = [
         {"value": "Total Other Expenses"},
         {"value": f"{total_other_expenses}"}
