@@ -739,7 +739,8 @@ async def get_profit_and_loss(start_date: Optional[date] = None, end_date: Optio
             for each in journal_lines:
                 print(f"each in journal_lines is {each}")
 
-                if each['account_type'] in ["REVENUE", "COGS", "EXPENSE", "OTHER_INCOME", "OTHER_EXPENSES"]:
+                if str(each['account_type']).lower() in ["revenue", "cogs", "expense", "other_income",
+                                                         "other_expenses"]:
                     key = str(each['account_type']).lower()
                     print(f"Key is {key}")
                     try:
