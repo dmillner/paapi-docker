@@ -1695,7 +1695,8 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
 
     result = journal_entry_table.find(date={'between': [start_date, end_date]})
     print(f"The result is {result}")
-    accounts_by_type = {'asset': {}, 'liability': {}, 'equity': {}}
+    accounts_by_type = {'asset': {}, 'liability': {}, 'equity': {}, 'revenue': {}, 'expense': {}}
+    retained_earnings = 0
     if result:
         for row in result:
             print(f"The row is {row['journal_lines']}")
@@ -1703,7 +1704,7 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
             for each in journal_lines:
                 print(f"each in journal_lines is {each}")
 
-                if each['account_type'] in ["Asset", "Liability", "Equity"]:
+                if str(each['account_type']).lower() in ["asset", "liability", "equity", "revenue", "expense"]:
                     key = str(each['account_type']).lower()
                     print(f"Key is {key}")
                     try:
@@ -1712,6 +1713,7 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
                         accounts_by_type[f"{key}"][f"account_code_{each['account_code']}"] = []
                         accounts_by_type[f"{key}"][
                             f"account_code_{each['account_code']}"].append(each['amount'])
+
     else:
         raise HTTPException(status_code=404, detail="Journal Entry not found")
 
@@ -1729,6 +1731,18 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
         print(f"account in ACCOUNTS BY TYPE is {account}")
         accounts_by_type['equity'][f'{account}'] = sum(accounts_by_type['equity'][f'{account}'])
 
+    for account in accounts_by_type['revenue']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['revenue'][f'{account}'] = sum(accounts_by_type['revenue'][f'{account}'])
+        retained_earnings -= accounts_by_type['revenue'][f'{account}']
+
+    for account in accounts_by_type['expense']:
+        print(f"account in ACCOUNTS BY TYPE is {account}")
+        accounts_by_type['expense'][f'{account}'] = sum(accounts_by_type['expense'][f'{account}'])
+        retained_earnings -= accounts_by_type['expense'][f'{account}']
+
     print(f"UPDATED accounts by type are {accounts_by_type}")
+    print(f"RETAINED_EARNINGS is {retained_earnings}")
+
     balance_sheet = {}
     return balance_sheet
