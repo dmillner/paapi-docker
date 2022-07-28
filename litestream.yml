@@ -1,11 +1,11 @@
-access-key-id: AKIAYQANN6TQQIHCU7RD
-secret-access-key: 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
+access-key-id: AWS_ACCESS_KEY_ID
+secret-access-key: AWS_SECRET_ACCESS_KEY
 
 dbs:
   - path: ./code/sqlitefile.db
     replicas:
       - type: s3
-        bucket: paapi-backups
-        path:   db
+        bucket: AWS_S3_BUCKET_NAME
+        path: db
         region: us-east-1
           
