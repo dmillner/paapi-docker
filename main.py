@@ -6,6 +6,7 @@ from enum import Enum
 import dataset
 from datetime import datetime, date, timezone
 import json
+import os
 
 # connecting to a SQLite database
 db = dataset.connect('sqlite:///sqlitefile.db')
