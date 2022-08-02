@@ -14,4 +14,4 @@ WORKDIR /code
 
 
 
-ENTRYPOINT ["/bin/sh", "-c" , "uvicorn main:app --host 0.0.0.0 --port 80 && replicate"]
+ENTRYPOINT ["/bin/sh", "-c" , "replicate && uvicorn main:app --host 0.0.0.0 --port 80"]
