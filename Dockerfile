@@ -8,9 +8,10 @@ FROM python:3.9
 ADD https://github.com/benbjohnson/litestream/releases/download/v0.3.8/litestream-v0.3.8-linux-amd64-static.tar.gz /tmp/litestream.tar.gz
 RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz
 RUN pip install --upgrade pip
+COPY ./requirements.txt /requirements.txt
+
 RUN pip install -r /requirements.txt
 RUN mkdir /code
-COPY ./requirements.txt /requirements.txt
 COPY ./litestream.yml /etc/litestream.yml
 
 COPY ./ /code
