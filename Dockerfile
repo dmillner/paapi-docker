@@ -1,13 +1,18 @@
 
-## litestream stage
-FROM litestream/litestream
-COPY ./litestream.yml /etc/litestream.yml
+
 
 FROM python:3.9 
-COPY ./requirements.txt /requirements.txt
+
+# Download the static build of Litestream directly into the path & make it executable.
+# This is done in the builder and copied as the chmod doubles the size.
+ADD https://github.com/benbjohnson/litestream/releases/download/v0.3.8/litestream-v0.3.8-linux-amd64-static.tar.gz /tmp/litestream.tar.gz
+RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz
 RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 RUN mkdir /code
+COPY ./requirements.txt /requirements.txt
+COPY ./litestream.yml /etc/litestream.yml
+
 COPY ./ /code
 RUN chmod -R 777 /code
 WORKDIR /code
