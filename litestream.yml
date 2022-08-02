@@ -2,7 +2,8 @@ access-key-id: ${AWS_ACCESS_KEY_ID}
 secret-access-key: ${AWS_SECRET_ACCESS_KEY}
 
 dbs:
-  - path: ./code/sqlitefile.db
+#### since docker has workdir /code
+  - path: ./sqlitefile.db
     replicas:
       - type: s3
         bucket: ${AWS_S3_BUCKET_NAME}
