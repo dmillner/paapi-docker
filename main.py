@@ -361,6 +361,9 @@ class UpdateJournalEntry(BaseModel):
             }
         }
 
+@app.get("/")
+def healthcheck():
+    return "200"
 
 @app.get("/owner_info/", response_model=OwnerInfoResponse, tags=["Owner Info"])
 async def read_owner_info():
@@ -1217,3 +1220,5 @@ async def get_balance_sheet(start_date: Optional[date] = None, end_date: Optiona
 
     balance_sheet = {}
     return balance_sheet
+
+
