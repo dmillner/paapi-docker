@@ -8,3 +8,5 @@ sqlitefile.db-shm
 sqlitefile.db-wal
 .sqlitefile.db-litestream
 
+
+.DS_Store
